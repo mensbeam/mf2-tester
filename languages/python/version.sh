@@ -1,3 +1,2 @@
 #!/bin/bash
-echo "import mf2py
-print(mf2py.__version__)" | python
+uv export -q | grep ^mf2py== | cut -d ' ' -f 1 | cut -d '=' -f 3

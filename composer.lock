@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9cccaadbf934bc57429abbcef86073e",
+    "content-hash": "e9e35f5aad5aa4b09beb93f9475a15e9",
     "packages": [
         {
             "name": "masterminds/html5",
@@ -157,29 +157,6 @@
             "description": "Microformats test suite",
             "homepage": "https://github.com/microformats/tests",
             "time": "2020-05-11T15:20:21+00:00"
-        },
-        {
-            "name": "tantek/cassis",
-            "version": "v0.2.16895",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tantek/cassis.git",
-                "reference": "357e30ad12017b4d67cac5f4400e8f371cd2f504"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tantek/cassis/zipball/357e30ad12017b4d67cac5f4400e8f371cd2f504",
-                "reference": "357e30ad12017b4d67cac5f4400e8f371cd2f504",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "cassis.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2016-04-04T15:31:04+00:00"
         }
     ],
     "packages-dev": [],
@@ -190,7 +167,7 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

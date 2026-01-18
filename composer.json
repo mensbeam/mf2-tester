@@ -10,7 +10,6 @@
     }
   ],
   "require": {
-    "tantek/cassis": "*",
     "mf2/mf2": "*",
     "mf2/tests": "dev-master#bef8e1b",
     "masterminds/html5": "*"

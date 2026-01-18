@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cargo install --list | grep "^microformats" | awk '{print $2}' | sed 's/:$//'
+cargo info -q microformats | grep '^version:' | awk '{print $2}'

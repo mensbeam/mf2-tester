@@ -1,6 +1,8 @@
 *.swp
-vendor
-node_modules
+/languages/go/test-one
+/results
 
-languages/go/test-one
-results
+/vendor
+/node_modules
+/target
+/.bundle/ruby
