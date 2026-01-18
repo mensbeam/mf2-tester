@@ -3,6 +3,7 @@ package main
 
 import (
 	"encoding/json"
+	"strings"
 	"fmt"
 	"net/url"
 	"os"
@@ -11,6 +12,13 @@ import (
 )
 
 func main() {
+	baseStr := "http://example.com/"
+	if strings.HasPrefix(os.Args[1], "vendor/mf2/tests/tests/microformats-v2-unit/") {
+		// This is a unit test; these use a different base URL
+		baseStr = "http://example.test"
+	}
+	baseURL, _ := url.Parse(baseStr)
+
 	f, err := os.Open(os.Args[1])
 	if err != nil {
 		fmt.Println(err)
@@ -18,7 +26,6 @@ func main() {
 	}
 	defer f.Close()
 
-	baseURL, _ := url.Parse("http://example.com/")
 	data := microformats.Parse(f, baseURL)
 
 	json, _ := json.MarshalIndent(data, "", "  ")

@@ -6,11 +6,14 @@ if(count($argv) < 2){
 
 require 'vendor/autoload.php';
 
-$my_file = $argv[1];
-$handle = fopen($my_file, 'r');
-$data = fread($handle,filesize($my_file));
-fclose($handle);
+$file = $argv[1];
+$data = file_get_contents($file);
+$base = 'http://example.com/';
+if (strpos($file, "vendor/mf2/tests/tests/microformats-v2-unit/") === 0) {
+    // This is a unit test; these use a different base URL
+    $base = 'http://example.test';
+}
 
-$output = Mf2\parse($data, 'http://example.com/');
+$output = Mf2\parse($data, $base);
 
-echo( json_encode($output) . "\n");
+echo json_encode($output) . "\n";

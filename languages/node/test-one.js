@@ -7,6 +7,12 @@ if (infile === undefined) {
   process.exit(1);
 }
 
+var base = 'http://example.com/';
+if (infile.indexOf("vendor/mf2/tests/tests/microformats-v2-unit/") === 0) {
+    // This is a unit test; these use a different base URL
+    base = 'http://example.test';
+}
+
 var fs = require("fs");
 
 fs.readFile(infile, "utf8", function (err, data) {
@@ -15,7 +21,7 @@ fs.readFile(infile, "utf8", function (err, data) {
         options = {};
 
     options.html = data
-    options.baseUrl = 'http://example.com/'
+    options.baseUrl = base
     Microformats.get(options, function(err, outdata){
         console.log("%j", outdata)
         // do something with data

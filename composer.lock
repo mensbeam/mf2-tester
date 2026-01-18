@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e81363f1e2d5527f60dfa9f531918ae2",
+    "content-hash": "1dfc670b96dc2d5bdcdd430eae2d99ac",
     "packages": [
         {
             "name": "masterminds/html5",
@@ -141,12 +141,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microformats/tests.git",
-                "reference": "58b0d13"
+                "reference": "d49f5d76d0395676274c9ff15f1a14091498d7d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microformats/tests/zipball/58b0d13",
-                "reference": "58b0d13",
+                "url": "https://api.github.com/repos/microformats/tests/zipball/d49f5d76d0395676274c9ff15f1a14091498d7d4",
+                "reference": "d49f5d76d0395676274c9ff15f1a14091498d7d4",
                 "shasum": ""
             },
             "default-branch": true,

@@ -1,10 +1,19 @@
 use std::io::{self, Write};
-use url::Url;
 
 fn main() {
-    let base = Url::parse("http://example.com").unwrap();
+    let argv: Vec<String> = std::env::args().collect();
+    let file = &argv[2];
+
+    let mut base_str = "http://example.com";
+    if file.starts_with("vendor/mf2/tests/tests/microformats-v2-unit/") {
+        // This is a unit test; these use a different base URL
+        base_str = "http://example.test";
+    }
+    let base = url::Url::parse(base_str).unwrap();
+
+    let data = std::fs::read_to_string(file).expect("Could not read file");
     let document =
-        microformats::from_reader(io::stdin().lock(), &base).unwrap();
+        microformats::from_html(&data, &base).unwrap();
     let json_string = serde_json::to_string_pretty(&document).unwrap();
 
     io::stdout().write(json_string.as_bytes()).unwrap();
