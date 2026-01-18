@@ -20,8 +20,8 @@ echo "Installing JavaScript and TypeScript libraries"
 npm install --silent
 
 echo "Installing Rust library"
-cargo fetch -q
-cargo build -q
+cargo fetch --locked -q
+cargo build --locked -q
 
 echo "Installing Ruby library"
 bundle install --quiet
