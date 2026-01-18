@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-microformats = "0.2.0"
+microformats = "*"
 serde_json = "1.0"
+url = "2.5"
 
 [[bin]]
 name = "test-one"

@@ -11,7 +11,7 @@
   ],
   "require": {
     "mf2/mf2": "*",
-    "mf2/tests": "dev-master#bef8e1b",
+    "mf2/tests": "dev-master#58b0d13",
     "masterminds/html5": "*"
   }
 }
