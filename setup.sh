@@ -27,4 +27,7 @@ echo "Installing Ruby library"
 bundle install --quiet
 
 echo "Installing Python library"
-uv sync -q
+uv sync --locked -q
+
+echo "Installing Go library"
+go get ./... >/dev/null
