@@ -11,3 +11,4 @@ def sorted_walk(f):
 def normalize: sorted_walk(if type == "array" then sort else . end);
 
 normalize
+| (..|select(type=="string")) |= sub("\\b(?<url>https?://[^/ \"']+)(?=$|[ \"'])"; "\(.url)/"; "g")
