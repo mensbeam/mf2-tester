@@ -13,7 +13,7 @@ import (
 
 func main() {
 	baseStr := "http://example.com/"
-	if strings.HasPrefix(os.Args[1], "vendor/mf2/tests/tests/microformats-v2-unit/") {
+	if strings.Contains(os.Args[1], "/microformats-v2-unit/") {
 		// This is a unit test; these use a different base URL
 		baseStr = "http://example.test"
 	}

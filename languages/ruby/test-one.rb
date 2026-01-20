@@ -10,7 +10,7 @@ end
 
 def process_html(file)
   baseUrl = 'http://example.com/'
-  if file.start_with?('vendor/mf2/tests/tests/microformats-v2-unit/')
+  if file.include?('/microformats-v2-unit/')
     # This is a unit test; these use a different base URL
     baseURL = 'http://example.test'
   end

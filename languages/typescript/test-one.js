@@ -8,7 +8,7 @@ if (infile === undefined) {
 }
 
 var base = 'http://example.com/';
-if (infile.indexOf("vendor/mf2/tests/tests/microformats-v2-unit/") === 0) {
+if (infile.indexOf("/microformats-v2-unit/") > -1) {
     // This is a unit test; these use a different base URL
     base = 'http://example.test';
 }

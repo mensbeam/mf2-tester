@@ -9,7 +9,7 @@ require 'vendor/autoload.php';
 $file = $argv[1];
 $data = file_get_contents($file);
 $base = 'http://example.com/';
-if (strpos($file, "vendor/mf2/tests/tests/microformats-v2-unit/") === 0) {
+if (strpos($file, "/microformats-v2-unit/") !== false) {
     // This is a unit test; these use a different base URL
     $base = 'http://example.test';
 }

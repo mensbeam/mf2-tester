@@ -7,7 +7,7 @@ if len(sys.argv) < 2:
 
 name = sys.argv[1]
 base = 'http://example.com/'
-if name.startswith("vendor/mf2/tests/tests/microformats-v2-unit/"):
+if "/microformats-v2-unit/" in name:
     # This is a unit test; these use a different base URL
     base = 'http://example.test'
 

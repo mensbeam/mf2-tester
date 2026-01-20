@@ -5,7 +5,7 @@ fn main() {
     let file = &argv[2];
 
     let mut base_str = "http://example.com";
-    if file.starts_with("vendor/mf2/tests/tests/microformats-v2-unit/") {
+    if file.contains("/microformats-v2-unit/") {
         // This is a unit test; these use a different base URL
         base_str = "http://example.test";
     }

@@ -23,8 +23,7 @@ if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ]; then
         mkdir -p "$results_dir"`dirname "$file"`
         # copy the input and output files
         cp "$src_dir$file.html" "$test_dir$file.txt"
-        cp "$src_dir$file.json" "$results_dir$file.txt"
-        cat $f |jq -S -f "$normalize" > "$results_dir$file.json"
+        cat "$f" |jq -S -f "$normalize" > "$results_dir$file.json"
     done
 fi
 
@@ -44,7 +43,7 @@ for lang in $languages; do
         # create the output directory if necessary
         mkdir -p `dirname "$dest"`
         # run the test
-        test_one $f |jq -S -f "$normalize" >"$dest";
+        test_one "$f" |jq -S -f "$normalize" >"$dest";
     done
     unset -f test_one
 done
