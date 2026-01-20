@@ -10,5 +10,7 @@ def sorted_walk(f):
 
 def normalize: sorted_walk(if type == "array" then sort else . end);
 
-normalize
-| (..|select(type=="string")) |= sub("\\b(?<url>https?://[^/ \"']+)(?=$|[ \"'])"; "\(.url)/"; "g")
+normalize |
+(..|select(type=="string")) |= sub("\\b(?<url>https?://[^/ \"']+)(?=$|[ \"'])"; "\(.url)/"; "g") |
+(.rels,."rel-urls",(..|select(type=="object" and has("properties")).properties)) |= if length < 1 then {} else . end |
+.

@@ -1,12 +1,19 @@
 #!/bin/bash
-echo "removing any previous data"
+echo "Removing any previous data"
 ./scripts/destroy.sh
-echo "initializing language directories"
+echo "Initializing language directories"
 ./scripts/initialize.sh
 
-for lang in `ls languages`; do 
+unset -f test_one
+
+for lang in `ls languages`; do
     echo "Testing $lang"
-    bash "./languages/$lang/test-all.sh";
+    source "./languages/$lang/test-all.sh"
+
+    for f in vendor/mf2/tests/tests/microformats-*/*/*.html ; do
+        test_one $f |jq -S -f normalize.jq > `echo $f |sed 's/vendor.mf2.tests.tests/results\/'$lang'/' | sed s/html/json/`;
+    done
+    unset -f test_one
 done
 
 echo "Building Report"
