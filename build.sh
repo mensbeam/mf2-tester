@@ -27,15 +27,20 @@ if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ]; then
     done
 fi
 
-# Test the requested libraries
+# test if GNU Parallel is available
+HAVE_PARALLEL=""
+if [ $(command -v parallel) ]; then
+    HAVE_PARALLEL=1
+fi
+# test the requested libraries
 unset -f test_one
 for lang in $languages; do
-    echo "Preparing $lang"
+    echo "Testing $lang"
     source "./languages/$lang/test-all.sh"
     dest_dir="$report_dir/$lang"
     rm -rf "$dest_dir"
 
-    echo "Testing $lang"
+    commands=""
     for f in "$test_dir/"microformats-*/*/*.txt ; do
         # compute the output file names
         file=${f#"$test_dir"}
@@ -43,9 +48,18 @@ for lang in $languages; do
         err="$dest_dir${file%".txt"}.err.txt"
         # create the output directory if necessary
         mkdir -p `dirname "$dest"`
-        # run the test
-        test_one "$f" 2>"$err" |jq -S -f "$normalize" >"$dest";
+        # either buffer the test if Parallel is available, or run it now otherwise
+        if [ $HAVE_PARALLEL ]; then
+            commands+="test_one \"$f\" 2>\"$err\" |jq -S -f \"$normalize\" >\"$dest\""$'\n'
+        else
+            test_one "$f" 2>"$err" |jq -S -f "$normalize" >"$dest"
+        fi
     done
+    # execute the tests in a batch if using Parallel
+    if [ $HAVE_PARALLEL ]; then
+        export -f test_one
+        parallel <<< "$commands"
+    fi
     unset -f test_one
 done
 
