@@ -2,7 +2,7 @@
 src_dir="vendor/mf2/tests/tests"
 report_dir="results"
 test_dir="$report_dir/tests"
-results_dir="results/test-results"
+results_dir="$report_dir/test-results"
 normalize="scripts/normalize.jq"
 # if no particular languages were requested, do them all
 if [ -z "$1" ]; then
@@ -37,13 +37,14 @@ for lang in $languages; do
 
     echo "Testing $lang"
     for f in "$test_dir/"microformats-*/*/*.txt ; do
-        # compute the output file name
+        # compute the output file names
         file=${f#"$test_dir"}
         dest="$dest_dir${file%".txt"}.json"
+        err="$dest_dir${file%".txt"}.err.txt"
         # create the output directory if necessary
         mkdir -p `dirname "$dest"`
         # run the test
-        test_one "$f" |jq -S -f "$normalize" >"$dest";
+        test_one "$f" 2>"$err" |jq -S -f "$normalize" >"$dest";
     done
     unset -f test_one
 done
