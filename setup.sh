@@ -16,6 +16,9 @@ function check_deps {
     echo "${missing[@]}"
 }
 
+# make sure we're in the correct directory
+pushd `dirname "$0"` >/dev/null
+
 # Check basic dependencies
 missing=`check_deps`
 if [ "$missing" ]; then

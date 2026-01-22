@@ -6,6 +6,9 @@ results_dir="$report_dir/test-results"
 normalize="scripts/normalize.jq"
 declare -a languages=()
 
+# make sure we're in the correct directory
+pushd `dirname "$0"` >/dev/null
+
 # if no particular languages were requested, try them all
 if [ -z "$1" ]; then
     pushd languages >/dev/null
