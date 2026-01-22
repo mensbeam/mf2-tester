@@ -4,14 +4,30 @@ report_dir="results"
 test_dir="$report_dir/tests"
 results_dir="$report_dir/test-results"
 normalize="scripts/normalize.jq"
-# if no particular languages were requested, do them all
+declare -a languages=()
+
+# if no particular languages were requested, try them all
 if [ -z "$1" ]; then
     pushd languages >/dev/null
-    declare -a languages=(*)
+    declare -a requested=(*)
     popd >/dev/null
 else
-    declare -a languages=($@)
+    declare -a requested=($@)
 fi
+# however, skip the ones for which we're missing dependencies
+for lang in ${requested[@]}; do
+    declare -a missing=()
+    for tool in `cat "languages/$lang/tools" | tr '\n' ' '`; do
+        if [ ! `command -v $tool` ]; then
+            missing+=($tool)
+        fi
+    done
+    if [ ${#missing[@]} -gt 0 ]; then
+        echo "Skipping $lang (needed: ${missing[@]})"
+    else
+        languages+=("$lang")
+    fi
+done
 
 # if the test input or expected results are missing from the report, create them
 if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ]; then
