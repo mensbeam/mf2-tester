@@ -6,9 +6,11 @@ results_dir="$report_dir/test-results"
 normalize="scripts/normalize.jq"
 # if no particular languages were requested, do them all
 if [ -z "$1" ]; then
-    languages=`ls languages`
+    pushd languages >/dev/null
+    declare -a languages=(*)
+    popd >/dev/null
 else
-    languages=$@
+    declare -a languages=($@)
 fi
 
 # if the test input or expected results are missing from the report, create them
@@ -34,10 +36,10 @@ if [ $(command -v parallel) ]; then
 fi
 # test the requested libraries
 unset -f test_one
-for lang in $languages; do
+for lang in ${languages[@]}; do
     echo "Testing $lang"
     source "./languages/$lang/test-all.sh"
-    dest_dir="$report_dir/$lang"
+    dest_dir="$report_dir/libs/$lang"
     rm -rf "$dest_dir"
 
     commands=""

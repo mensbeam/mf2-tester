@@ -1,15 +1,19 @@
 #!/bin/bash
 TEST_SUITE_VERSION=`bash scripts/tests-version.sh`;
-LANGUAGES=`ls languages`
 declare -i TOTAL=0
+
+# change the working directory; this will simplify much of what we have to do
+pushd results >/dev/null
+pushd libs >/dev/null
+
 # keep track of the number of passed tests for each language
+declare -a LANGUAGES=(*)
 declare -A COUNTS
-for lang in $LANGUAGES; do
+for lang in ${LANGUAGES[@]}; do
     declare -i COUNTS["$lang"]=0
 done
+popd >/dev/null
 
-# change the working directory; this is usually seen as bad form, but it will simplify much of what we have to do
-pushd results >/dev/null
 # Prepare the table body; this consists of one row for each test
 TBODY='<tbody>'
 for f in test-results/*/*/*.json ; do
@@ -27,10 +31,10 @@ for f in test-results/*/*/*.json ; do
     EXP_MD5=`md5sum "$f" |cut -d ' ' -f 1`
     TBODY+='<td>Expected: <a href="'$EXP_URL'">View</a><div class="md5" title="'$EXP_MD5'">'$EXP_MD5'</div><div class="diff"><wbr></div>'
     # prepare a result cell for each language
-    for lang in $LANGUAGES; do
-        RESULT_URL="$lang$FILE.json"
-        RESULT_ERR="$lang$FILE.err.txt"
-        RESULT_DIFF="$lang$FILE.diff.txt"
+    for lang in ${LANGUAGES[@]}; do
+        RESULT_URL="libs/$lang$FILE.json"
+        RESULT_ERR="libs/$lang$FILE.err.txt"
+        RESULT_DIFF="libs/$lang$FILE.diff.txt"
         if [ -s "$RESULT_ERR" ]; then
             # the test program produced an error; skip MD5 computation and diffing
             TBODY+='<td class="error">Result: <a href="'$RESULT_ERR'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
@@ -57,7 +61,7 @@ popd >/dev/null
 THEAD='<thead>'
 # the first row contains library names and versions
 THEAD+='<tr><th rowspan="2">Test<th><a href="https://github.com/microformats/tests">Test Suite</a><div class="version">'$TEST_SUITE_VERSION'</div>'
-for lang in $LANGUAGES; do 
+for lang in ${LANGUAGES[@]}; do 
     NAME=`cat languages/${lang}/label`
     LINK=`cat languages/${lang}/link`
     VERSION=`bash languages/${lang}/version.sh`
@@ -65,7 +69,7 @@ for lang in $LANGUAGES; do
 done
 # the second row contains test counts
 THEAD+='<tr><td>'$TOTAL' tests'
-for lang in $LANGUAGES; do 
+for lang in ${LANGUAGES[@]}; do 
     THEAD+='<td>'${COUNTS["$lang"]}' passed'
 done
 
