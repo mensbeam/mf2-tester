@@ -1,5 +1,5 @@
 #!/bin/bash
-TEST_SUITE_VERSION=`bash scripts/tests-version.sh`;
+TEST_SUITE_VERSION=`composer show |grep ' mf2/tests ' |sed 's/\ \+/ /g' |cut -d ' ' -f 3`;
 declare -i TOTAL=0
 
 # change the working directory; this will simplify much of what we have to do
