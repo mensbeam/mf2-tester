@@ -1,10 +1,11 @@
 #!/bin/bash
 TEST_SUITE_VERSION=`bash scripts/tests-version.sh`;
 LANGUAGES=`ls languages`
-TOTAL=0
+declare -i TOTAL=0
 # keep track of the number of passed tests for each language
+declare -A COUNTS
 for lang in $LANGUAGES; do
-    declare "count_$lang=0"
+    declare -i COUNTS["$lang"]=0
 done
 
 # change the working directory; this is usually seen as bad form, but it will simplify much of what we have to do
@@ -12,7 +13,7 @@ pushd results >/dev/null
 # Prepare the table body; this consists of one row for each test
 TBODY='<tbody>'
 for f in test-results/*/*/*.json ; do
-    TOTAL=$[$TOTAL + 1]
+    TOTAL=$((TOTAL + 1))
     TBODY+="<tr>"
     # compute the fixed part of the file name
     FILE=${f#"test-results"}
@@ -24,7 +25,7 @@ for f in test-results/*/*/*.json ; do
     # prepare the cell with the expected output
     EXP_URL="test-results$FILE.json"
     EXP_MD5=`md5sum "$f" |cut -d ' ' -f 1`
-    TBODY+='<td>Expected: <a href="'$EXP_URL'">View</a><div class="md5" title="'$EXP_MD5'">'$EXP_MD5'</div><div class="diff">&nbsp;</div>'
+    TBODY+='<td>Expected: <a href="'$EXP_URL'">View</a><div class="md5" title="'$EXP_MD5'">'$EXP_MD5'</div><div class="diff"><wbr></div>'
     # prepare a result cell for each language
     for lang in $LANGUAGES; do
         RESULT_URL="$lang$FILE.json"
@@ -32,16 +33,15 @@ for f in test-results/*/*/*.json ; do
         RESULT_DIFF="$lang$FILE.diff.txt"
         if [ -s "$RESULT_ERR" ]; then
             # the test program produced an error; skip MD5 computation and diffing
-            TBODY+='<td class="error">Result: <a href="'$RESULT_ERR'">Error</a><div class="md5">&nbsp;</div><div class="diff">&nbsp;</div>'
+            TBODY+='<td class="error">Result: <a href="'$RESULT_ERR'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
             rm -f "$RESULT_URL"
         else
             rm -f "$RESULT_ERR"
             RESULT_MD5=`md5sum "$RESULT_URL" |cut -d ' ' -f 1`
             if [ "$RESULT_MD5" = "$EXP_MD5" ]; then
                 # the test passed; increment the number of passed tests
-                lang_total="count_$lang"
-                declare "count_$lang=$[${!lang_total} + 1]"
-                TBODY+='<td class="pass">Result: <a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'">&nbsp;</div><div class="diff">&nbsp;</div>'
+                COUNTS["$lang"]=$((${COUNTS["$lang"]} + 1))
+                TBODY+='<td class="pass">Result: <a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'"><wbr></div><div class="diff"><wbr></div>'
             else
                 # the test failed; produce a diff and link to that in addition to the result
                 diff -y --left-column "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
@@ -66,8 +66,7 @@ done
 # the second row contains test counts
 THEAD+='<tr><td>'$TOTAL' tests'
 for lang in $LANGUAGES; do 
-    lang_total="count_$lang"
-    THEAD+='<td>'${!lang_total}' passed'
+    THEAD+='<td>'${COUNTS["$lang"]}' passed'
 done
 
 # output the document
