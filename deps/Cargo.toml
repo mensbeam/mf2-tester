@@ -10,4 +10,4 @@ url = "2.5"
 
 [[bin]]
 name = "test-one"
-path = "languages/rust/test-one.rs"
+path = "../languages/rust/test-one.rs"

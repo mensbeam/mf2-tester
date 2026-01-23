@@ -1,12 +1,13 @@
 #!/bin/bash
-TEST_SUITE_VERSION=`composer show |grep ' mf2/tests ' |sed 's/\ \+/ /g' |cut -d ' ' -f 3`;
+TEST_SUITE_VERSION=`composer -d deps show |grep ' mf2/tests ' |sed 's/\ \+/ /g' |cut -d ' ' -f 3`;
+lang_dir="`pwd`/languages"
 declare -i TOTAL=0
 
 # change the working directory; this will simplify much of what we have to do
 pushd results >/dev/null
-pushd libs >/dev/null
 
 # keep track of the number of passed tests for each language
+pushd libs >/dev/null
 declare -a LANGUAGES=(*)
 declare -A COUNTS
 for lang in ${LANGUAGES[@]}; do
@@ -54,17 +55,18 @@ for f in test-results/*/*/*.json ; do
         fi
     done
 done
-# restore the working directory
+# restore the working directory and change to where package registry files are
 popd >/dev/null
+pushd deps >/dev/null
 
 # next prepare the table header
 THEAD='<thead>'
 # the first row contains library names and versions
 THEAD+='<tr><th rowspan="2">Test<th><a href="https://github.com/microformats/tests">Test Suite</a><div class="version">'$TEST_SUITE_VERSION'</div>'
 for lang in ${LANGUAGES[@]}; do 
-    NAME=`cat languages/${lang}/label`
-    LINK=`cat languages/${lang}/link`
-    VERSION=`bash languages/${lang}/version.sh`
+    NAME=`cat "$lang_dir/${lang}/label"`
+    LINK=`cat "$lang_dir/${lang}/link"`
+    VERSION=`source "$lang_dir/${lang}/version.sh"`
     THEAD+='<th><a href="'$LINK'">'$NAME'</a><div class="version">'$VERSION'</div>'
 done
 # the second row contains test counts
@@ -73,7 +75,8 @@ for lang in ${LANGUAGES[@]}; do
     THEAD+='<td>'${COUNTS["$lang"]}' passed'
 done
 
-# output the document
+# restore the working directory and output the document
+popd >/dev/null
 echo '
 <!DOCTYPE html>
 <html>

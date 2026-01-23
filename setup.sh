@@ -1,9 +1,13 @@
 #!/bin/bash
 basetools="md5sum jq diff composer"
 
+# make sure we're in the correct directory
+pushd `dirname "$0"` >/dev/null
+base_dir=`pwd`
+
 function check_deps {
     if [ "$1" ]; then
-        declare tools=`cat "languages/$1/tools" | tr '\n' ' '`
+        declare tools=`cat "$base_dir/languages/$1/tools" | tr '\n' ' '`
     else
         declare tools="$basetools"
     fi
@@ -16,9 +20,6 @@ function check_deps {
     echo "${missing[@]}"
 }
 
-# make sure we're in the correct directory
-pushd `dirname "$0"` >/dev/null
-
 # Check basic dependencies
 missing=`check_deps`
 if [ "$missing" ]; then
@@ -27,6 +28,9 @@ if [ "$missing" ]; then
     done
     exit 1
 fi
+
+# change to the directory where the package registry files are
+pushd "$base_dir/deps" >/dev/null
 
 # install the various libraries if requirements are met
 missing=`check_deps go`

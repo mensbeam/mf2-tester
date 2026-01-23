@@ -1,7 +1,7 @@
 #!/bin/bash
 rm test-one 2>/dev/null
-go build -mod=mod -o ./languages/go/test-one ./languages/go/test-one.go
+go build -mod=mod -o "$here/test-one" "$here/test-one.go"
 
 function test_one {
-    ./languages/go/test-one "$1"
+    "$2/test-one" "$1"
 }

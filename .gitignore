@@ -2,7 +2,7 @@
 /languages/go/test-one
 /results
 
-/vendor
-/node_modules
-/target
-/.bundle/ruby
+/deps/vendor
+/deps/node_modules
+/deps/target
+/deps/.bundle

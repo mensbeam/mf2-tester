@@ -1,17 +1,21 @@
 #!/bin/bash
-src_dir="vendor/mf2/tests/tests"
-report_dir="results"
-test_dir="$report_dir/tests"
-results_dir="$report_dir/test-results"
-normalize="scripts/normalize.jq"
-declare -a languages=()
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null
 
+# define variables for later use
+declare -a languages=()
+base_dir=`pwd`
+report_dir="$base_dir/results"
+test_dir="$report_dir/tests"
+results_dir="$report_dir/test-results"
+src_dir="$base_dir/deps/vendor/mf2/tests/tests"
+lang_dir="$base_dir/languages"
+normalize="$base_dir/scripts/normalize.jq"
+
 # if no particular languages were requested, try them all
 if [ -z "$1" ]; then
-    pushd languages >/dev/null
+    pushd "$lang_dir" >/dev/null
     declare -a requested=(*)
     popd >/dev/null
 else
@@ -20,7 +24,7 @@ fi
 # however, skip the ones for which we're missing dependencies
 for lang in ${requested[@]}; do
     declare -a missing=()
-    for tool in `cat "languages/$lang/tools" | tr '\n' ' '`; do
+    for tool in `cat "$lang_dir/$lang/tools" | tr '\n' ' '`; do
         if [ ! `command -v $tool` ]; then
             missing+=($tool)
         fi
@@ -48,16 +52,22 @@ if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ]; then
     done
 fi
 
-# test if GNU Parallel is available
+# check if GNU Parallel is available
 HAVE_PARALLEL=""
 if [ $(command -v parallel) ]; then
     HAVE_PARALLEL=1
 fi
+
+# change the working directory to where all the package registry files are
+pushd "$base_dir/deps" >/dev/null
+
 # test the requested libraries
 unset -f test_one
 for lang in ${languages[@]}; do
+    # prepare the tests
     echo "Testing $lang"
-    source "./languages/$lang/test-all.sh"
+    here="$lang_dir/$lang"
+    source "$here/test-all.sh"
     dest_dir="$report_dir/libs/$lang"
     rm -rf "$dest_dir"
 
@@ -70,10 +80,11 @@ for lang in ${languages[@]}; do
         # create the output directory if necessary
         mkdir -p `dirname "$dest"`
         # either buffer the test if Parallel is available, or run it now otherwise
+        command="test_one \"$f\" \"$here\" \"`pwd`\" 2>\"$err\" |jq -S -f \"$normalize\" >\"$dest\""
         if [ $HAVE_PARALLEL ]; then
-            commands+="test_one \"$f\" 2>\"$err\" |jq -S -f \"$normalize\" >\"$dest\""$'\n'
+            commands+="$command"$'\n'
         else
-            test_one "$f" 2>"$err" |jq -S -f "$normalize" >"$dest"
+            eval $command
         fi
     done
     # execute the tests in a batch if using Parallel
@@ -83,6 +94,9 @@ for lang in ${languages[@]}; do
     fi
     unset -f test_one
 done
+
+# restore the working directory
+popd >/dev/null
 
 echo "Building Report"
 ./scripts/package.sh
