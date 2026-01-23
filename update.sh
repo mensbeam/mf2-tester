@@ -6,7 +6,7 @@ base_dir=`pwd`
 
 function check_deps {
     if [ "$1" ]; then
-        declare tools=`cat "$base_dir/languages/$1/tools" | tr '\n' ' '`
+        declare tools=`cat "$base_dir/languages/$1/tools"`
     else
         return
     fi

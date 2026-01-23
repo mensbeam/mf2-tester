@@ -1,5 +1,9 @@
 #!/bin/bash
-TEST_SUITE_VERSION=TODO;
+
+# make sure we're in the correct directory
+pushd `dirname "$0"` >/dev/null
+
+TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1`;
 lang_dir="`pwd`/languages"
 declare -i TOTAL=0
 

@@ -9,7 +9,7 @@ base_dir=`pwd`
 report_dir="$base_dir/results"
 test_dir="$report_dir/tests"
 results_dir="$report_dir/test-results"
-src_dir="$base_dir/deps/vendor/mf2/tests/tests"
+src_dir="$base_dir/mf2-tests/tests"
 lang_dir="$base_dir/languages"
 normalize="$base_dir/normalize.jq"
 
@@ -24,7 +24,7 @@ fi
 # however, skip the ones for which we're missing dependencies
 for lang in ${requested[@]}; do
     declare -a missing=()
-    for tool in `cat "$lang_dir/$lang/tools" | tr '\n' ' '`; do
+    for tool in `cat "$lang_dir/$lang/tools"`; do
         if [ ! `command -v $tool` ]; then
             missing+=($tool)
         fi
@@ -68,7 +68,7 @@ for lang in ${languages[@]}; do
     # prepare the tests
     echo "Testing $lang"
     here="$lang_dir/$lang"
-    source "$here/test-all.sh"
+    source "$here/test.sh"
     dest_dir="$report_dir/libs/$lang"
     rm -rf "$dest_dir"
 
@@ -100,4 +100,4 @@ done
 popd >/dev/null
 
 echo "Building Report"
-./report.sh
+source report.sh
