@@ -11,7 +11,7 @@ test_dir="$report_dir/tests"
 results_dir="$report_dir/test-results"
 src_dir="$base_dir/deps/vendor/mf2/tests/tests"
 lang_dir="$base_dir/languages"
-normalize="$base_dir/scripts/normalize.jq"
+normalize="$base_dir/normalize.jq"
 
 # if no particular languages were requested, try them all
 if [ -z "$1" ]; then
@@ -99,4 +99,4 @@ done
 popd >/dev/null
 
 echo "Building Report"
-./scripts/package.sh
+./report.sh
