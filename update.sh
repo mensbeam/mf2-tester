@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null

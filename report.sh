@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null
 
 TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1`;
-lang_dir="`pwd`/languages"
+base_dir=`pwd`
+lang_dir="$base_dir/languages"
 declare -i TOTAL=0
 
 # change the working directory; this will simplify much of what we have to do
@@ -38,12 +39,16 @@ for f in test-results/*/*/*.json ; do
     # prepare a result cell for each language
     for lang in ${LANGUAGES[@]}; do
         RESULT_URL="libs/$lang$FILE.json"
-        RESULT_ERR="libs/$lang$FILE.err.txt"
+        RESULT_ERR="libs/$lang$FILE.err"
         RESULT_DIFF="libs/$lang$FILE.diff.txt"
-        if [ -s "$RESULT_ERR" ]; then
-            # the test program produced an error; skip MD5 computation and diffing
-            TBODY+='<td class="error">Result: <a href="'$RESULT_ERR'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
+        if [ -s "$RESULT_ERR" -o -e "$RESULT_ERR.txt" ]; then
+            # the test program produced an error; skip MD5 computation and diffing, and just remove the base path from any embedded paths in the error log
+            if [ ! -e "$RESULT_ERR.txt" ]; then
+                sed -e "s# $base_dir/# #" -e "s#^$base_dir/##" -e "s# $HOME/# ~/#" "$RESULT_ERR" > "$RESULT_ERR.txt"
+            fi
+            rm -f "$RESULT_ERR"
             rm -f "$RESULT_URL"
+            TBODY+='<td class="error">Result: <a href="'$RESULT_ERR.txt'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
         else
             rm -f "$RESULT_ERR"
             RESULT_MD5=`md5sum "$RESULT_URL" |cut -d ' ' -f 1`
@@ -53,7 +58,7 @@ for f in test-results/*/*/*.json ; do
                 TBODY+='<td class="pass">Result: <a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'"><wbr></div><div class="diff"><wbr></div>'
             else
                 # the test failed; produce a diff and link to that in addition to the result
-                diff -y --left-column "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
+                diff -y "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
                 TBODY+='<td class="fail">Result: <a href="'$RESULT_URL'">Fail</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
             fi
         fi
@@ -118,4 +123,4 @@ th, td {
 <h1>Test Results</h1>
 <p><a href="https://github.com/dissolve/mf2-tester">Source</a>
 <table>'$THEAD$TBODY'
-</table>' | sed -E -e 's/<t(head|body)/\n  \0/g' -e 's/<tr/\n    \0/g' -e 's/<t[dh][ >]/\n      \0/g' > results/index.html
+</table>' | sed -E -e 's/(<t(head|body))/\n  \1/g' -e 's/(<tr)/\n    \1/g' -e 's/(<t[dh][ >])/\n      \1/g' > results/index.html

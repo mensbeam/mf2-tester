@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null
@@ -39,7 +39,7 @@ done
 # if the test input or expected results are missing from the report or are stale, recreate them
 if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ] || [ -e "$report_dir/stale" ]; then
     echo "Initializing test results"
-    rm -rf "$test_dir" "$results_dir"
+    rm -rf "$test_dir" "$results_dir" "$report_dir/stale"
     for f in "$src_dir/"microformats-*/*/*.json ; do
         # compute the fixed part of the file name
         file=${f#"$src_dir"}
@@ -77,11 +77,11 @@ for lang in ${languages[@]}; do
         # compute the output file names
         file=${f#"$test_dir"}
         dest="$dest_dir${file%".txt"}.json"
-        err="$dest_dir${file%".txt"}.err.txt"
+        err="$dest_dir${file%".txt"}.err"
         # create the output directory if necessary
         mkdir -p `dirname "$dest"`
         # either buffer the test if Parallel is available, or run it now otherwise
-        command="test_one \"$f\" \"$here\" \"`pwd`\" 2>\"$err\" |jq -S -f \"$normalize\" >\"$dest\""
+        command="test_one '$f' '$here' '`pwd`' 2>'$err' |jq -S -f '$normalize' >'$dest'"
         if [ $HAVE_PARALLEL ]; then
             commands+="$command"$'\n'
         else

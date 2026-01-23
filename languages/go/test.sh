@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 rm test-one 2>/dev/null
 go build -mod=mod -o "$here/test-one" "$here/test-one.go"
 

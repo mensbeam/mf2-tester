@@ -1,5 +1,5 @@
-#!/bin/bash
-basetools="md5sum jq diff git"
+#!/usr/bin/env bash
+basetools="awk sed md5sum jq diff git"
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null
@@ -29,6 +29,18 @@ if [ "$missing" ]; then
     exit 1
 fi
 
+# Check if the version of Bash is ancient; this is typically the case on macOS
+if [ `echo "$BASH_VERSION" | sed -Ee 's/^([0-9]).*/\1/'` -lt 4 ]; then
+    echo 'Bash 4.0 or later is required for these scripts to work correctly. Please'
+    echo 'update your version of Bash. If you are using macOS this can be done with'
+    echo 'Homebrew by issuing the following command:'
+    echo ''
+    echo '    brew install bash'
+    echo ''
+    exit 2
+fi
+
+# fetchthe test suite
 echo "Fetching test suite"
 git submodule update --init --recursive -q
 

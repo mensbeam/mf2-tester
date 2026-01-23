@@ -1,3 +1,2 @@
-#!/bin/bash
-echo "var Microformats = require('microformat-node')
-console.log( Microformats.version)" | node
+#!/usr/bin/env bash
+npm ls -json | jq -r '.dependencies["microformat-node"].version | .'

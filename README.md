@@ -9,7 +9,7 @@ To run:
 ./build.sh
 ```
 
-Results are published at https://dissolve.github.io/mf2-tester/
+The result is an HTML report at `results/index.html` with accompanying input and output files. Execution of `build.sh` will be faster if [GNU Parallel](https://www.gnu.org/software/parallel/) is installed on the system.
 
 Currently the following libraries are exercised:
 
@@ -19,3 +19,42 @@ Currently the following libraries are exercised:
 - Python: [mf2py](https://pypi.org/project/mf2py/)
 - Ruby: [microformats-ruby](https://rubygems.org/gems/microformats)
 - Rust: [Microformats for Rust](https://crates.io/crates/microformats)
+
+If the required software to exercise a library is not available it will be skipped.
+
+## Adding a library
+
+The infrastructure required to add a library consists of the following things:
+
+- A directory under `languages/` which contains the following files:
+    - `label`: contains a short human-readable name for the library, used in the table header of the report
+    - `link`: contains the URL for the library, preferrably pointing to its entry in a programming language package registry
+    - `tools`: contains a space-separated list of all the command-line tools required to install, update, and exercise the library
+    - `version.sh`: a script which retrieves and prints the currently installed version of the library. It will be executed during report generation from the `deps/` directory
+    - `test.sh`: a script which will set up and execute a test program; the requirements for this script are detailed below
+    - A file with source code for a test program, the requirements for which are detailed below
+- Entries in the the relevant repository registry files in the `deps/` directory for installing and updating the library
+- Commands in `setup.sh` to install a pinned version of the library, if they don't already exist
+- Commands in `update.sh` to update to the latest version of the library, if they don't already exist
+
+### The test program
+
+The test program need only read a single HTML file, process it for microformats, and then print [a standard Microformats 2 JSON structure](https://microformats.org/wiki/microformats2-parsing#parse_a_document_for_microformats) to standard output. The following things should be borne in mind when designing a test program:
+
+- The working directory will be the `deps/` directory
+- The formatting of the JSON output is unimportant; it will be normalized after execution
+- The standard error stream of the program will be captured. If the program prints anything to standard error it is assumed to have failed to complete the test
+- The program may use non-default library settings to disable experimenal features in order to pass the tests, but should not modify its input or output
+- The base URL of most tests is `http://example.com/`, however the base URL of tests in the `microformats-v2-unit` directory is `http://example.test/`
+
+### The `test.sh` script
+
+The `test.sh` file is a Bash script whose responsibility it is to set up and execute the test program for a given library. At minimum the file must contain a `test_one` function with the commands necessary to execute the test program for a single test input file. The function receives three arguments:
+
+1. The absolute path of the test file to process
+2. The absolute path of the directory containing the `test.sh` script
+3. The absolute path of the `deps/` directory
+
+The script may also contain commands prior to the `test_one` function to e.g. compile the test program. The `test_one` function will then be executed once for each input file in the test suite.
+
+The script is `source`d during execution of `build.sh`. During the script's execution the `$here` variable contains the absolute path to the directory containing the `test.sh` script, and the working directory is the `deps/` directory. Note that the `$here` variable is not available during execution of the `test_one` function; the same information is available from the `$2` argument within the function context, however.
