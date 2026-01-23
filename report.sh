@@ -1,5 +1,5 @@
 #!/bin/bash
-TEST_SUITE_VERSION=`composer -d deps show |grep ' mf2/tests ' |sed 's/\ \+/ /g' |cut -d ' ' -f 3`;
+TEST_SUITE_VERSION=TODO;
 lang_dir="`pwd`/languages"
 declare -i TOTAL=0
 

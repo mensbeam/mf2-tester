@@ -36,9 +36,10 @@ for lang in ${requested[@]}; do
     fi
 done
 
-# if the test input or expected results are missing from the report, create them
-if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ]; then
+# if the test input or expected results are missing from the report or are stale, recreate them
+if [ ! -e "$test_dir" ] || [ ! -e "$results_dir" ] || [ -e "$report_dir/stale" ]; then
     echo "Initializing test results"
+    rm -rf "$test_dir" "$results_dir"
     for f in "$src_dir/"microformats-*/*/*.json ; do
         # compute the fixed part of the file name
         file=${f#"$src_dir"}
@@ -54,7 +55,7 @@ fi
 
 # check if GNU Parallel is available
 HAVE_PARALLEL=""
-if [ $(command -v parallel) ]; then
+if [ `command -v parallel` ]; then
     HAVE_PARALLEL=1
 fi
 

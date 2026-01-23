@@ -1,0 +1,3 @@
+[submodule "mf2-tests"]
+	path = mf2-tests
+	url = https://github.com/microformats/tests

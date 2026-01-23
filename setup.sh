@@ -1,5 +1,5 @@
 #!/bin/bash
-basetools="md5sum jq diff composer"
+basetools="md5sum jq diff git"
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null
@@ -28,6 +28,9 @@ if [ "$missing" ]; then
     done
     exit 1
 fi
+
+echo "Fetching test suite"
+git submodule update --init --recursive -q
 
 # change to the directory where the package registry files are
 pushd "$base_dir/deps" >/dev/null

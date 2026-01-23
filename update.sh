@@ -19,6 +19,11 @@ function check_deps {
     echo "${missing[@]}"
 }
 
+
+echo "Updating test suite and invalidating report"
+git submodule update --init --recursive --remote -q
+touch "$base_dir/results/stale"
+
 # change to the directory where the package registry files are
 pushd "$base_dir/deps" >/dev/null
 

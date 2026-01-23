@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1dfc670b96dc2d5bdcdd430eae2d99ac",
+    "content-hash": "664edc0662b2156d1d1c4d6a826b5dd9",
     "packages": [
         {
             "name": "masterminds/html5",
@@ -134,48 +134,12 @@
                 "source": "https://github.com/microformats/php-mf2/tree/v0.5.0"
             },
             "time": "2022-02-10T01:05:27+00:00"
-        },
-        {
-            "name": "mf2/tests",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microformats/tests.git",
-                "reference": "d49f5d76d0395676274c9ff15f1a14091498d7d4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microformats/tests/zipball/d49f5d76d0395676274c9ff15f1a14091498d7d4",
-                "reference": "d49f5d76d0395676274c9ff15f1a14091498d7d4",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "CC0"
-            ],
-            "authors": [
-                {
-                    "name": "Glenn Jones",
-                    "homepage": "https://glennjones.net/"
-                }
-            ],
-            "description": "Microformats test suite",
-            "homepage": "https://github.com/microformats/tests",
-            "support": {
-                "issues": "https://github.com/microformats/tests/issues",
-                "source": "https://github.com/microformats/tests/tree/master"
-            },
-            "time": "2025-12-09T20:13:56+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "mf2/tests": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
