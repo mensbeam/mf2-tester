@@ -15,7 +15,7 @@ Currently the following libraries are exercised:
 
 - Go: [microformats](https://pkg.go.dev/willnorris.com/go/microformats)
 - JavaScript: [microformat-node](https://www.npmjs.com/package/microformat-node), [microformats-parser](https://www.npmjs.com/package/microformats-parser)
-- PHP: [php-mf2](https://packagist.org/packages/mf2/mf2)
+- PHP: [php-mf2](https://packagist.org/packages/mf2/mf2), [mensbeam/microformats](https://packagist.org/packages/mensbeam/microformats)
 - Python: [mf2py](https://pypi.org/project/mf2py/)
 - Ruby: [microformats-ruby](https://rubygems.org/gems/microformats)
 - Rust: [Microformats for Rust](https://crates.io/crates/microformats)

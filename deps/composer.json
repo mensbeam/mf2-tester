@@ -11,6 +11,7 @@
   ],
   "require": {
     "mf2/mf2": "*",
+    "mensbeam/microformats": "*",
     "masterminds/html5": "*"
   }
 }
