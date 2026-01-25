@@ -64,6 +64,14 @@ else
     echo "Skipping installation of JavaScript and TypeScript libraries (requires: $missing)"
 fi
 
+missing=`check_deps perl`
+if [ ! "$missing" ]; then
+    echo "Installing Perl library"
+    carton install >/dev/null
+else
+    echo "Skipping installation of PHP library (requires: $missing)"
+fi
+
 missing=`check_deps php`
 if [ ! "$missing" ]; then
     echo "Installing PHP library"

@@ -6,3 +6,4 @@
 /deps/node_modules
 /deps/target
 /deps/.bundle
+/deps/local

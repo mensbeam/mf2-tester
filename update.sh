@@ -44,6 +44,14 @@ else
     echo "Skipping update of JavaScript and TypeScript libraries (requires: $missing)"
 fi
 
+missing=`check_deps perl`
+if [ ! "$missing" ]; then
+    echo "Updating Perl library"
+    carton update >/dev/null
+else
+    echo "Skipping update of PHP library (requires: $missing)"
+fi
+
 missing=`check_deps php`
 if [ ! "$missing" ]; then
     echo "Updating PHP library"
