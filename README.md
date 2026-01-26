@@ -13,6 +13,7 @@ The result is an HTML report at `results/index.html` with accompanying input and
 
 Currently the following libraries are exercised:
 
+- Elixir: [microformats2](https://hex.pm/packages/microformats2)
 - Go: [microformats](https://pkg.go.dev/willnorris.com/go/microformats)
 - JavaScript: [microformat-node](https://www.npmjs.com/package/microformat-node), [microformats-parser](https://www.npmjs.com/package/microformats-parser)
 - Perl: [Web::Microformats2](https://metacpan.org/pod/Web::Microformats2)
@@ -65,6 +66,10 @@ The script is `source`d during execution of `build.sh`. During the script's exec
 
 Because the tester interacts with libraries written in a large number of programming languages, it relies upon language-specific dependency managers to limit the complexity of setting up the build and/or execution environment for each language. Not all of these dependency managers are always easy to install, however, so some notes are included here to ease initial set-up.
 
+### Elixir
+
+The `mix` build tool is included as part of a standard Elixir programming environment. It is available from most system package managers.s
+
 ### Go
 
 All that is required for Go is the [Go compiler](https://go.dev/dl/). It is available from most system package managers.
@@ -100,4 +105,3 @@ gem install bundler
 ### Rust
 
 The Cargo dependency manager is typically installed as part of a complete Rust programming environment. The recommended way of [setting up a Rust programming environment](https://rust-lang.org/tools/install/) is by using `rustup`, which is available from most system package managers.
-
