@@ -31,7 +31,7 @@ pushd "$base_dir/deps" >/dev/null
 missing=`check_deps elixir`
 if [ ! "$missing" ]; then
     echo "Updating Elixir library"
-    MIX_QUIET=1 MIX_XDG=1 mix deps.update
+    MIX_QUIET=1 MIX_XDG=1 mix deps.update --all
 else
     echo "Skipping update of Elixir library (requires: $missing)"
 fi

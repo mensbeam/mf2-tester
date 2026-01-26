@@ -1,23 +1,20 @@
-defmodule Deps.MixProject do
+defmodule MicroformatsTester.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :mftester,
+      app: :testone,
       version: "0.1.0",
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
+      escript: [
+        main_module: MicroformatsTester,
+        path: "../languages/elixir/test-one"
+        ],
       deps: [
         {:microformats2, "~> 1.0.0"},
         {:json, "~> 1.4"}
       ]
-    ]
-  end
-
-  # Run "mix help compile.app" to learn about applications.
-  def application do
-    [
-      extra_applications: [:logger]
     ]
   end
 end

@@ -1,4 +1,5 @@
 *.swp
+/languages/elixir/test-one
 /languages/go/test-one
 /results
 
