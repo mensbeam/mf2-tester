@@ -7,3 +7,5 @@
 /deps/target
 /deps/.bundle
 /deps/local
+/deps/deps
+/deps/_build

@@ -28,6 +28,14 @@ touch "$base_dir/results/stale"
 pushd "$base_dir/deps" >/dev/null
 
 # update the various libraries if requirements are met
+missing=`check_deps elixir`
+if [ ! "$missing" ]; then
+    echo "Updating Elixir library"
+    MIX_QUIET=1 MIX_XDG=1 mix deps.update
+else
+    echo "Skipping update of Elixir library (requires: $missing)"
+fi
+
 missing=`check_deps go`
 if [ ! "$missing" ]; then
     echo "Updating Go library"

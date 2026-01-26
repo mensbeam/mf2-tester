@@ -1,0 +1,5 @@
+%{
+  "floki": {:hex, :floki, "0.38.0", "62b642386fa3f2f90713f6e231da0fa3256e41ef1089f83b6ceac7a3fd3abf33", [:mix], [], "hexpm", "a5943ee91e93fb2d635b612caf5508e36d37548e84928463ef9dd986f0d1abd9"},
+  "json": {:hex, :json, "1.4.1", "8648f04a9439765ad449bc56a3ff7d8b11dd44ff08ffcdefc4329f7c93843dfa", [:mix], [], "hexpm", "9abf218dbe4ea4fcb875e087d5f904ef263d012ee5ed21d46e9dbca63f053d16"},
+  "microformats2": {:hex, :microformats2, "1.0.1", "addcfeec0d9cddcb18f2351f8b470af738622eb8279ce682eff7117f13fb250b", [:mix], [{:floki, "~> 0.7", [hex: :floki, repo: "hexpm", optional: false]}, {:tesla, "~> 1.8.0", [hex: :tesla, repo: "hexpm", optional: true]}], "hexpm", "3b1690dd68e7b59fe822f7e44f6b00c89181d2e090eb76fdd2d968b185122097"},
+}

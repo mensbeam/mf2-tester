@@ -48,6 +48,14 @@ git submodule update --init --recursive -q
 pushd "$base_dir/deps" >/dev/null
 
 # install the various libraries if requirements are met
+missing=`check_deps elixir`
+if [ ! "$missing" ]; then
+    echo "Installing Elixir library"
+    MIX_QUIET=1 MIX_XDG=1 mix deps.get
+else
+    echo "Skipping installation of Elixir library (requires: $missing)"
+fi
+
 missing=`check_deps go`
 if [ ! "$missing" ]; then
     echo "Installing Go library"
