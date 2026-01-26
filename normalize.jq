@@ -1,16 +1,6 @@
-# Apply f to composite entities recursively using keys[], and to atoms
-def sorted_walk(f):
-  . as $in
-  | if type == "object" then
-      reduce keys[] as $key
-        ( {}; . + { ($key):  ($in[$key] | sorted_walk(f)) } ) | f
-  elif type == "array" then map( sorted_walk(f) ) | f
-  else f
-  end;
+# This script for jq performs some normalization on the output of he Microformats parsers as described below
 
-def normalize: sorted_walk(if type == "array" then sort else . end);
-
-normalize |
+# Adds a slash to pathless URLs (e.g. "http://example.com") since URL normalization is undefined in the Microformats specification
 (..|select(type=="string")) |= sub("\\b(?<url>https?://[^/ \"']+)(?=$|[ \"'])"; "\(.url)/"; "g") |
-(.rels,."rel-urls",(..|select(type=="object" and has("properties")).properties)) |= if length < 1 then {} else . end |
+# Outputs the result of the normalizations
 .

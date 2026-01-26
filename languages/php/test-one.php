@@ -15,6 +15,9 @@ if (strpos($file, "/microformats-v2-unit/") !== false) {
     $base = 'http://example.test';
 }
 
-$output = Mf2\parse($data, $base);
+// Use "JSON mode" in the parser, which makes a distinction
+//   between empty arrays and empty objects
+$p = new Mf2\Parser($data, $base, true);
+$output = $p->parse();
 
 echo json_encode($output) . "\n";
