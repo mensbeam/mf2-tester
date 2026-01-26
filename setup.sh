@@ -69,7 +69,7 @@ if [ ! "$missing" ]; then
     echo "Installing Perl library"
     carton install >/dev/null
 else
-    echo "Skipping installation of PHP library (requires: $missing)"
+    echo "Skipping installation of Perl library (requires: $missing)"
 fi
 
 missing=`check_deps php`

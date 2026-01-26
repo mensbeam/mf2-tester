@@ -49,7 +49,7 @@ if [ ! "$missing" ]; then
     echo "Updating Perl library"
     carton update >/dev/null
 else
-    echo "Skipping update of PHP library (requires: $missing)"
+    echo "Skipping update of Perl library (requires: $missing)"
 fi
 
 missing=`check_deps php`
