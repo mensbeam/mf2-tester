@@ -23,11 +23,14 @@ popd >/dev/null
 # Prepare the table body; this consists of one row for each test
 TBODY='<tbody>'
 for f in test-results/*/*/*.json ; do
-    TOTAL=$((TOTAL + 1))
-    TBODY+="<tr>"
     # compute the fixed part of the file name
     FILE=${f#"test-results"}
     FILE=${FILE%".json"}
+    # determine whether the test is a tentative one; these are tests which implementations are not expected to pass because correct behavious is undefined
+    TENTATIVE=`grep -E '/microformats-v2-unit/[^/]+/tentative-' <<< "$FILE"`
+    # begin the row
+    TOTAL=$((TOTAL + 1))
+    TBODY+="<tr>"
     # prepare the cell with the test input
     TEST_URL="tests$FILE.txt"
     NAME=`echo "$FILE" | sed -e 's#^/##' -e 's#/#<br>#g'`
@@ -57,9 +60,13 @@ for f in test-results/*/*/*.json ; do
                 COUNTS["$lang"]=$((${COUNTS["$lang"]} + 1))
                 TBODY+='<td class="pass">Result: <a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'"><wbr></div><div class="diff"><wbr></div>'
             else
-                # the test failed; produce a diff and link to that in addition to the result
+                # the test failed; produce a diff and link to that in addition to the result; if the test is tentative do not treat it is a failure
                 diff -y "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
-                TBODY+='<td class="fail">Result: <a href="'$RESULT_URL'">Fail</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                if [ ! "$TENTATIVE" ]; then
+                    TBODY+='<td class="fail">Result: <a href="'$RESULT_URL'">Fail</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                else
+                    TBODY+='<td>Result: <a href="'$RESULT_URL'">Differ</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                fi
             fi
         fi
     done
