@@ -17,11 +17,14 @@ var fs = require("fs");
 
 fs.readFile(infile, "utf8", function (err, data) {
     if (err) throw err;
-     var Microformats = require('microformat-node'),
-        options = {};
+    var Microformats = require('microformat-node'),
+    options = {
+        html: data,
+        baseUrl: base,
+        textFormat: "whitespacetrimmed",
+        dateFormat: "auto",
+    };
 
-    options.html = data
-    options.baseUrl = base
     Microformats.get(options, function(err, outdata){
         console.log("%j", outdata)
         // do something with data
