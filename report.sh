@@ -51,21 +51,21 @@ for f in test-results/*/*/*.json ; do
             fi
             rm -f "$RESULT_ERR"
             rm -f "$RESULT_URL"
-            TBODY+='<td class="error">Result: <a href="'$RESULT_ERR.txt'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
+            TBODY+='<td class="error"><a href="'$RESULT_ERR.txt'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
         else
             rm -f "$RESULT_ERR"
             RESULT_MD5=`md5sum "$RESULT_URL" |cut -d ' ' -f 1`
             if [ "$RESULT_MD5" = "$EXP_MD5" ]; then
                 # the test passed; increment the number of passed tests
                 COUNTS["$lang"]=$((${COUNTS["$lang"]} + 1))
-                TBODY+='<td class="pass">Result: <a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'"><wbr></div><div class="diff"><wbr></div>'
+                TBODY+='<td class="pass"><a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'"><wbr></div><div class="diff"><wbr></div>'
             else
                 # the test failed; produce a diff and link to that in addition to the result; if the test is tentative do not treat it is a failure
                 diff -y "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
                 if [ ! "$TENTATIVE" ]; then
-                    TBODY+='<td class="fail">Result: <a href="'$RESULT_URL'">Fail</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                    TBODY+='<td class="fail"><a href="'$RESULT_URL'">Fail</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
                 else
-                    TBODY+='<td>Result: <a href="'$RESULT_URL'">Differ</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                    TBODY+='<td><a href="'$RESULT_URL'">Differ</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
                 fi
             fi
         fi
