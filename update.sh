@@ -44,7 +44,7 @@ else
     echo "Skipping update of Go library (requires: $missing)"
 fi
 
-missing=`check_deps node`
+missing=`check_deps js`
 if [ ! "$missing" ]; then
     echo "Updating JavaScript and TypeScript libraries"
     npm update --silent

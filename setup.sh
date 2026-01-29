@@ -64,7 +64,7 @@ else
     echo "Skipping installation of Go library (requires: $missing)"
 fi
 
-missing=`check_deps node`
+missing=`check_deps js`
 if [ ! "$missing" ]; then
     echo "Installing JavaScript and TypeScript libraries"
     npm install --silent
