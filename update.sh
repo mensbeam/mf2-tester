@@ -72,6 +72,7 @@ missing=`check_deps python`
 if [ ! "$missing" ]; then
     echo "Updating Python library"
     uv lock --upgrade -q
+    uv sync -q
 else
     echo "Skipping update of Python library (requires: $missing)"
 fi
