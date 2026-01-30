@@ -47,7 +47,7 @@ for f in test-results/*/*/*.json ; do
         if [ -s "$RESULT_ERR" -o -e "$RESULT_ERR.txt" ]; then
             # the test program produced an error; skip MD5 computation and diffing, and just remove the base path from any embedded paths in the error log
             if [ ! -e "$RESULT_ERR.txt" ]; then
-                sed -e "s# $base_dir/# #" -e "s#^$base_dir/##" -e "s# $HOME/# ~/#" "$RESULT_ERR" > "$RESULT_ERR.txt"
+                sed -E -e "s#([ \"])$base_dir/#\1#" -e "s#^$base_dir/##" -e "s# $HOME/# ~/#" "$RESULT_ERR" > "$RESULT_ERR.txt"
             fi
             rm -f "$RESULT_ERR"
             rm -f "$RESULT_URL"
