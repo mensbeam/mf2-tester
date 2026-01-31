@@ -75,16 +75,16 @@
         },
         {
             "name": "mensbeam/html-parser",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/HTML-Parser.git",
-                "reference": "6fd16295df1b70671e1f8a695cff7340d53957d8"
+                "reference": "8de1a97cbc28729434bcc75f772fb5f8e6eaa945"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/HTML-Parser/zipball/6fd16295df1b70671e1f8a695cff7340d53957d8",
-                "reference": "6fd16295df1b70671e1f8a695cff7340d53957d8",
+                "url": "https://api.github.com/repos/mensbeam/HTML-Parser/zipball/8de1a97cbc28729434bcc75f772fb5f8e6eaa945",
+                "reference": "8de1a97cbc28729434bcc75f772fb5f8e6eaa945",
                 "shasum": ""
             },
             "require": {
@@ -100,6 +100,12 @@
                 "ext-ctype": "Improved performance"
             },
             "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": true
+                }
+            },
             "autoload": {
                 "files": [
                     "lib/Parser/ctype.php"
@@ -139,9 +145,9 @@
                 "parsing"
             ],
             "support": {
-                "source": "https://github.com/mensbeam/HTML-Parser/tree/1.4.2"
+                "source": "https://github.com/mensbeam/HTML-Parser/tree/1.4.3"
             },
-            "time": "2024-12-29T14:48:58+00:00"
+            "time": "2026-01-19T23:44:48+00:00"
         },
         {
             "name": "mensbeam/intl",
@@ -205,16 +211,16 @@
         },
         {
             "name": "mensbeam/microformats",
-            "version": "0.1.3",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/microformats.git",
-                "reference": "5d7bcdee41a487365dfe3cecf0dd84c29cc08b40"
+                "reference": "2662b8e19aa3ecb0af4aeb57327f6142a859798a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/5d7bcdee41a487365dfe3cecf0dd84c29cc08b40",
-                "reference": "5d7bcdee41a487365dfe3cecf0dd84c29cc08b40",
+                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/2662b8e19aa3ecb0af4aeb57327f6142a859798a",
+                "reference": "2662b8e19aa3ecb0af4aeb57327f6142a859798a",
                 "shasum": ""
             },
             "require": {
@@ -260,9 +266,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mensbeam/microformats/issues",
-                "source": "https://github.com/mensbeam/microformats/tree/0.1.3"
+                "source": "https://github.com/mensbeam/microformats/tree/0.1.4"
             },
-            "time": "2026-01-24T01:19:06+00:00"
+            "time": "2026-01-31T01:52:45+00:00"
         },
         {
             "name": "mensbeam/mimesniff",
