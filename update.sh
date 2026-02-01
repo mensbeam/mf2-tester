@@ -46,7 +46,7 @@ fi
 
 missing=`check_deps js`
 if [ ! "$missing" ]; then
-    echo "Updating JavaScript and TypeScript libraries"
+    echo "Updating JavaScript libraries"
     npm update --silent
 else
     echo "Skipping update of JavaScript and TypeScript libraries (requires: $missing)"
@@ -62,7 +62,7 @@ fi
 
 missing=`check_deps php`
 if [ ! "$missing" ]; then
-    echo "Updating PHP library"
+    echo "Updating PHP libraries"
     composer update -q
 else
     echo "Skipping update of PHP library (requires: $missing)"
@@ -79,7 +79,7 @@ fi
 
 missing=`check_deps ruby`
 if [ ! "$missing" ]; then
-    echo "Updating Ruby library"
+    echo "Updating Ruby libraries"
     bundle update --all --quiet
 else
     echo "Skipping update of Ruby library (requires: $missing)"

@@ -211,16 +211,16 @@
         },
         {
             "name": "mensbeam/microformats",
-            "version": "0.1.4",
+            "version": "0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/microformats.git",
-                "reference": "2662b8e19aa3ecb0af4aeb57327f6142a859798a"
+                "reference": "7bfa46b165ee0d8104b6eaf5306b4c1d666a6f58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/2662b8e19aa3ecb0af4aeb57327f6142a859798a",
-                "reference": "2662b8e19aa3ecb0af4aeb57327f6142a859798a",
+                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/7bfa46b165ee0d8104b6eaf5306b4c1d666a6f58",
+                "reference": "7bfa46b165ee0d8104b6eaf5306b4c1d666a6f58",
                 "shasum": ""
             },
             "require": {
@@ -266,9 +266,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mensbeam/microformats/issues",
-                "source": "https://github.com/mensbeam/microformats/tree/0.1.4"
+                "source": "https://github.com/mensbeam/microformats/tree/0.1.5"
             },
-            "time": "2026-01-31T01:52:45+00:00"
+            "time": "2026-02-01T01:57:56+00:00"
         },
         {
             "name": "mensbeam/mimesniff",
