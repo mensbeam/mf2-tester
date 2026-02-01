@@ -38,34 +38,41 @@ for f in test-results/*/*/*.json ; do
     # prepare the cell with the expected output
     EXP_URL="test-results$FILE.json"
     EXP_MD5=`md5sum "$f" |cut -d ' ' -f 1`
-    TBODY+='<td>Expected: <a href="'$EXP_URL'">View</a><div class="md5" title="'$EXP_MD5'">'$EXP_MD5'</div><div class="diff"><wbr></div>'
+    TBODY+='<td><a href="'$EXP_URL'">Expected</a><div class="md5" title="'$EXP_MD5'">'$EXP_MD5'</div><div class="diff"><wbr></div>'
     # prepare a result cell for each language
     for lang in ${LANGUAGES[@]}; do
         RESULT_URL="libs/$lang$FILE.json"
         RESULT_ERR="libs/$lang$FILE.err"
         RESULT_DIFF="libs/$lang$FILE.diff.txt"
-        if [ -s "$RESULT_ERR" -o -e "$RESULT_ERR.txt" ]; then
-            # the test program produced an error; skip MD5 computation and diffing, and just remove the base path from any embedded paths in the error log
-            if [ ! -e "$RESULT_ERR.txt" ]; then
-                sed -E -e "s#([ \"])$base_dir/#\1#" -e "s#^$base_dir/##" -e "s# $HOME/# ~/#" "$RESULT_ERR" > "$RESULT_ERR.txt"
-            fi
+        ERR_HTML=""
+        if [ -s "$RESULT_ERR" ]; then
+            # remove the base path from any embedded paths in the error log; we cannot do this in-place portably between GNU and macOS, so we'll create a new file instead
+            sed -E -e "s#([ \"])$base_dir/#\1#" -e "s#^$base_dir/##" -e "s# $HOME/# ~/#" "$RESULT_ERR" > "$RESULT_ERR.txt"
             rm -f "$RESULT_ERR"
-            rm -f "$RESULT_URL"
+        fi
+        if [ -e "$RESULT_ERR.txt" -a ! -s "$RESULT_URL" ]; then
+            # the test program produced one or more errors and did not produce output; mark the whole test in error
             TBODY+='<td class="error"><a href="'$RESULT_ERR.txt'">Error</a><div class="md5"><wbr></div><div class="diff"><wbr></div>'
         else
-            rm -f "$RESULT_ERR"
+            if [ -s "$RESULT_ERR.txt" ]; then
+                # The test produced non-fatal errors e.g. warnings; prepare a link to the error information to be included along with the output
+                ERR_HTML='/<a class="error" href="'$RESULT_ERR.txt'">Error</a>'
+            else
+                # otherwise delete any empty error files
+                rm -f "$RESULT_ERR"
+            fi
             RESULT_MD5=`md5sum "$RESULT_URL" |cut -d ' ' -f 1`
             if [ "$RESULT_MD5" = "$EXP_MD5" ]; then
                 # the test passed; increment the number of passed tests
                 COUNTS["$lang"]=$((${COUNTS["$lang"]} + 1))
-                TBODY+='<td class="pass"><a href="'$RESULT_URL'">Pass</a><div class="md5" title="'$RESULT_MD5'"><wbr></div><div class="diff"><wbr></div>'
+                TBODY+='<td class="pass"><a href="'$RESULT_URL'">Pass</a>'"$ERR_HTML"'<div class="md5"><wbr></div><div class="diff"><wbr></div>'
             else
                 # the test failed; produce a diff and link to that in addition to the result; if the test is tentative do not treat it is a failure
                 diff -y "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
                 if [ ! "$TENTATIVE" ]; then
-                    TBODY+='<td class="fail"><a href="'$RESULT_URL'">Fail</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                    TBODY+='<td class="fail"><a href="'$RESULT_URL'">Fail</a>'"$ERR_HTML"'<div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
                 else
-                    TBODY+='<td><a href="'$RESULT_URL'">Differ</a><div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
+                    TBODY+='<td><a href="'$RESULT_URL'">Differ</a>'"$ERR_HTML"'<div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
                 fi
             fi
         fi
