@@ -211,22 +211,23 @@
         },
         {
             "name": "mensbeam/microformats",
-            "version": "0.1.5",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/microformats.git",
-                "reference": "7bfa46b165ee0d8104b6eaf5306b4c1d666a6f58"
+                "reference": "e0461890c38a1f637a32ee08d0265ecdc64a59b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/7bfa46b165ee0d8104b6eaf5306b4c1d666a6f58",
-                "reference": "7bfa46b165ee0d8104b6eaf5306b4c1d666a6f58",
+                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/e0461890c38a1f637a32ee08d0265ecdc64a59b6",
+                "reference": "e0461890c38a1f637a32ee08d0265ecdc64a59b6",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-json": "*",
                 "mensbeam/html-parser": "^1.3",
+                "mensbeam/mimesniff": "^0.3.0",
                 "php": ">=7.3",
                 "symfony/polyfill-intl-idn": "1.*"
             },
@@ -266,9 +267,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mensbeam/microformats/issues",
-                "source": "https://github.com/mensbeam/microformats/tree/0.1.5"
+                "source": "https://github.com/mensbeam/microformats/tree/0.2.1"
             },
-            "time": "2026-02-01T01:57:56+00:00"
+            "time": "2026-04-06T00:41:55+00:00"
         },
         {
             "name": "mensbeam/mimesniff",
