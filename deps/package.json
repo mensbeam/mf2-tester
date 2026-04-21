@@ -5,6 +5,6 @@
   "version": "0.1.0",
   "devDependencies": {
     "microformat-node": "*",
-    "microformats-parser": "^1.4.0"
+    "microformats-parser": "*"
   }
 }
