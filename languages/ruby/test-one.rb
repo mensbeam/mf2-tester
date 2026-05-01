@@ -12,7 +12,7 @@ def process_html(file)
   baseUrl = 'http://example.com/'
   if file.include?('/microformats-v2-unit/')
     # This is a unit test; these use a different base URL
-    baseURL = 'http://example.test'
+    baseUrl = 'http://example.test'
   end
   collection = Microformats.parse(file, base: baseUrl)
   puts JSON.pretty_generate(JSON[collection.to_json.to_s])
