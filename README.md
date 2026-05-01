@@ -19,10 +19,20 @@ Currently the following libraries are exercised:
 - Perl: [Web::Microformats2](https://metacpan.org/pod/Web::Microformats2)
 - PHP: [php-mf2](https://packagist.org/packages/mf2/mf2), [mensbeam/microformats](https://packagist.org/packages/mensbeam/microformats)
 - Python: [mf2py](https://pypi.org/project/mf2py/)
-- Ruby: [microformats-ruby](https://rubygems.org/gems/microformats)
+- Ruby: [microformats-ruby](https://rubygems.org/gems/microformats), [MicroMicro](https://rubygems.org/gems/micromicro)
 - Rust: [Microformats for Rust](https://crates.io/crates/microformats)
 
 If the required software to exercise a library is not available it will be skipped.
+
+## Libraries not included
+
+A few other libraries are known to be available and were evaluated for inclusion, but were rejected for one reason or another. These are:
+
+- [microformats2-parser for Haskell](https://hackage.haskell.org/package/microformats2-parser); I was unable to get a Haskell test program to compile
+- [microformats for C#](https://www.nuget.org/packages/Microformats); it does not output a structure which can be easily converted to JSON
+- [microformats for Racket](https://pkgs.racket-lang.org/package/microformats); Racket tooling does not seem to allow pinning dependency versions
+
+Help with resolving these problems would be greatly appreciated.
 
 ## Adding a library
 
@@ -45,7 +55,7 @@ The test program need only read a single HTML file, process it for microformats,
 
 - The working directory will be the `deps/` directory
 - The formatting of the JSON output is unimportant; it will be normalized after execution
-- The standard error stream of the program will be captured. If the program prints anything to standard error it is assumed to have failed to complete the test
+- The standard error stream of the program will be captured. If the program prints anything to standard error this will be made available along with the passing or failing output, if any
 - The program may use non-default library settings to disable experimenal features in order to pass the tests, but should not modify its input or output
 - The base URL of most tests is `http://example.com/`, however the base URL of tests in the `microformats-v2-unit` directory is `http://example.test/`
 
@@ -60,7 +70,6 @@ The `test.sh` file is a Bash script whose responsibility it is to set up and exe
 The script may also contain commands prior to the `test_one` function to e.g. compile the test program. The `test_one` function will then be executed once for each input file in the test suite.
 
 The script is `source`d during execution of `build.sh`. During the script's execution the `$here` variable contains the absolute path to the directory containing the `test.sh` script, and the working directory is the `deps/` directory. Note that the `$here` variable is not available during execution of the `test_one` function; the same information is available from the `$2` argument within the function context, however.
-
 
 ## Dependency management
 
@@ -92,7 +101,7 @@ The [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-m
 
 ### Python
 
-While `pip` is the standard package for Python, managing dependencies with it locally can be complex and error-prone. We therefore rely on the [uv Python environment manager](https://docs.astral.sh/uv/#installation) instead. It is available from many system package managers, but if it is not packaged by your distributor the linked Web site offers many alternatives means of installation.
+While `pip` is the standard package manager for Python, managing dependencies with it locally can be complex and error-prone. We therefore rely on the [uv Python environment manager](https://docs.astral.sh/uv/#installation) instead. It is available from many system package managers, but if it is not packaged by your distributor the linked Web site offers many alternatives means of installation.
 
 ### Ruby
 
