@@ -143,9 +143,9 @@ thead {
 <body>
 <h1>Microformats parser test matrix</h1>
 <p><a href="https://github.com/mensbeam/mf2-tester">Source</a>
-<h2>Basic functionality</h2>
+<h2>Basic features</h2>
 <table>'$V2TABLE'
 </table>
-<h2>Backwards-compatibility functionality</h2>
+<h2>Backwards-compatibility features</h2>
 <table>'$V1TABLE'
 </table>' | sed -E -e 's/(<t(head|body))/\n  \1/g' -e 's/(<tr)/\n    \1/g' -e 's/(<t[dh][ >])/\n      \1/g' > results/index.html
