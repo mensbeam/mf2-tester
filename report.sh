@@ -142,7 +142,7 @@ thead {
 </style>
 <body>
 <h1>Microformats parser test matrix</h1>
-<p><a href="https://github.com/dissolve/mf2-tester">Source</a>
+<p><a href="https://github.com/mensbeam/mf2-tester">Source</a>
 <h2>Basic functionality</h2>
 <table>'$V2TABLE'
 </table>
