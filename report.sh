@@ -89,7 +89,11 @@ function make_table {
     for lang in ${LANGUAGES[@]}; do 
         NAME=`cat "$lang_dir/${lang}/label"`
         LINK=`cat "$lang_dir/${lang}/link"`
-        VERSION=`source "$lang_dir/${lang}/version.sh"`
+        if [ -f "$base_dir/results/libs/${lang}/version" ]; then
+            VERSION=`cat "$base_dir/results/libs/${lang}/version"`
+        else
+            VERSION=`source "$lang_dir/${lang}/version.sh"`
+        fi
         THEAD+='<th><a href="'$LINK'">'$NAME'</a><div class="version">'$VERSION'</div>'
     done
     # the second row contains test counts
