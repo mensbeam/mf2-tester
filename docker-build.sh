@@ -55,7 +55,7 @@ docker compose build ${languages[@]}
 declare -a pids=()
 for lang in ${languages[@]}; do
     echo "Testing $lang"
-    docker compose run --rm "$lang" &
+    docker compose run --rm --user "$(id -u):$(id -g)" "$lang" &
     pids+=($!)
 done
 # wait for all containers to finish
