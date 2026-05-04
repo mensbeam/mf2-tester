@@ -1,0 +1,145 @@
+services:
+  elixir:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/elixir/Dockerfile
+    environment:
+      LANG_NAME: elixir
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/elixir:/app/languages/elixir:ro
+
+  go:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/go/Dockerfile
+    environment:
+      LANG_NAME: go
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/go:/app/languages/go:ro
+
+  js:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/js/Dockerfile
+    environment:
+      LANG_NAME: js
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/js:/app/languages/js:ro
+
+  js-shiv:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/js-shiv/Dockerfile
+    environment:
+      LANG_NAME: js-shiv
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/js-shiv:/app/languages/js-shiv:ro
+
+  perl:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/perl/Dockerfile
+    environment:
+      LANG_NAME: perl
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/perl:/app/languages/perl:ro
+
+  php:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/php/Dockerfile
+    environment:
+      LANG_NAME: php
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/php:/app/languages/php:ro
+
+  php-mensbeam:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/php-mensbeam/Dockerfile
+    environment:
+      LANG_NAME: php-mensbeam
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/php-mensbeam:/app/languages/php-mensbeam:ro
+
+  python:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/python/Dockerfile
+    environment:
+      LANG_NAME: python
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/python:/app/languages/python:ro
+
+  ruby:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/ruby/Dockerfile
+    environment:
+      LANG_NAME: ruby
+      BUNDLE_GEMFILE: /app/deps/Gemfile
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/ruby:/app/languages/ruby:ro
+
+  ruby-micromicro:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/ruby-micromicro/Dockerfile
+    environment:
+      LANG_NAME: ruby-micromicro
+      BUNDLE_GEMFILE: /app/deps/Gemfile
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/ruby-micromicro:/app/languages/ruby-micromicro:ro
+
+  rust:
+    entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
+    build:
+      context: .
+      dockerfile: languages/rust/Dockerfile
+    environment:
+      LANG_NAME: rust
+    volumes:
+      - ./docker-runner.sh:/app/docker-runner.sh:ro
+      - ./normalize.jq:/app/normalize.jq:ro
+      - ./results:/app/results
+      - ./languages/rust:/app/languages/rust:ro

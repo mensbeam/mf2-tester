@@ -1,0 +1,9 @@
+.git/
+mf2-tests/
+results/
+deps/node_modules/
+deps/target/
+deps/_build/
+deps/vendor/
+deps/local/
+deps/.venv/
