@@ -7,6 +7,11 @@ TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d 
 base_dir=`pwd`
 lang_dir="$base_dir/languages"
 
+# bail if no runs succeeded
+if [ ! -e results/libs ]; then
+    exit
+fi
+
 # get the list of "languages" (parser libraries)
 pushd results/libs >/dev/null
 declare -a LANGUAGES=(*)
