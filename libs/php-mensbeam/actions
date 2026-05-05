@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "test" ]; then
+    php -d display_errors=stderr "test-one.php" "$2"
+elif [ "$1" = "version" ]; then
+    composer show | grep 'mensbeam/microformats' | sed 's/\ \+/ /g' | cut -d ' ' -f 2
+elif [ "$1" = "compile" ]; then
+    true
+elif [ "$1" = "setup" ]; then
+    composer install -q
+elif [ "$1" = "update" ]; then
+    composer update -q
+fi

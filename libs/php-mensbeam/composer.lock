@@ -1,0 +1,493 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "aefb8857c96b4b4d21d1f43f0653f05d",
+    "packages": [
+        {
+            "name": "mensbeam/html-parser",
+            "version": "1.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mensbeam/HTML-Parser.git",
+                "reference": "8de1a97cbc28729434bcc75f772fb5f8e6eaa945"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mensbeam/HTML-Parser/zipball/8de1a97cbc28729434bcc75f772fb5f8e6eaa945",
+                "reference": "8de1a97cbc28729434bcc75f772fb5f8e6eaa945",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "mensbeam/intl": ">=0.9.1",
+                "mensbeam/mimesniff": ">=0.2.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.3"
+            },
+            "suggest": {
+                "ext-ctype": "Improved performance"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": true
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/Parser/ctype.php"
+                ],
+                "psr-4": {
+                    "MensBeam\\HTML\\": [
+                        "lib/"
+                    ]
+                },
+                "classmap": [
+                    "lib/Parser/Token.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dustin Wilson",
+                    "email": "dustin@dustinwilson.com",
+                    "homepage": "https://dustinwilson.com/"
+                },
+                {
+                    "name": "J. King",
+                    "email": "jking@jkingweb.ca",
+                    "homepage": "https://jkingweb.ca/"
+                }
+            ],
+            "description": "Parser and serializer for modern HTML documents",
+            "keywords": [
+                "HTML5",
+                "WHATWG",
+                "dom",
+                "html",
+                "parser",
+                "parsing"
+            ],
+            "support": {
+                "source": "https://github.com/mensbeam/HTML-Parser/tree/1.4.3"
+            },
+            "time": "2026-01-19T23:44:48+00:00"
+        },
+        {
+            "name": "mensbeam/intl",
+            "version": "0.9.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mensbeam/Intl.git",
+                "reference": "4cddddc30fe147b9249b1ffe751ebffd68ff3745"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mensbeam/Intl/zipball/4cddddc30fe147b9249b1ffe751ebffd68ff3745",
+                "reference": "4cddddc30fe147b9249b1ffe751ebffd68ff3745",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "*",
+                "ext-intl": "*"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": true
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MensBeam\\Intl\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "J. King",
+                    "email": "jking@jkingweb.ca",
+                    "homepage": "https://jkingweb.ca/"
+                }
+            ],
+            "description": "A set of dependency-free basic internationalization tools",
+            "keywords": [
+                "WHATWG",
+                "charset",
+                "encoding",
+                "internationalization",
+                "intl",
+                "unicode",
+                "utf-8",
+                "utf8"
+            ],
+            "support": {
+                "source": "https://github.com/mensbeam/Intl/tree/0.9.4"
+            },
+            "time": "2026-01-19T19:58:03+00:00"
+        },
+        {
+            "name": "mensbeam/microformats",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mensbeam/microformats.git",
+                "reference": "e0461890c38a1f637a32ee08d0265ecdc64a59b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/e0461890c38a1f637a32ee08d0265ecdc64a59b6",
+                "reference": "e0461890c38a1f637a32ee08d0265ecdc64a59b6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-json": "*",
+                "mensbeam/html-parser": "^1.3",
+                "mensbeam/mimesniff": "^0.3.0",
+                "php": ">=7.3",
+                "symfony/polyfill-intl-idn": "1.*"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "*"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": true
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MensBeam\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "J. King",
+                    "email": "jking@jkingweb.ca",
+                    "homepage": "https://jkingweb.ca/"
+                }
+            ],
+            "description": "A microformats parser",
+            "keywords": [
+                "html",
+                "indieweb",
+                "mf2",
+                "microformats",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/mensbeam/microformats/issues",
+                "source": "https://github.com/mensbeam/microformats/tree/0.2.1"
+            },
+            "time": "2026-04-06T00:41:55+00:00"
+        },
+        {
+            "name": "mensbeam/mimesniff",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mensbeam/mime.git",
+                "reference": "13f4eddf1ed7db6438ab4f945021a0c90b2d8052"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mensbeam/mime/zipball/13f4eddf1ed7db6438ab4f945021a0c90b2d8052",
+                "reference": "13f4eddf1ed7db6438ab4f945021a0c90b2d8052",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.3",
+                "ext-intl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MensBeam\\Mime\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "J. King",
+                    "email": "jking@jkingweb.ca",
+                    "homepage": "https://jkingweb.ca/"
+                }
+            ],
+            "description": "An implementation of the WHATWG MIME Sniffing specification",
+            "keywords": [
+                "WHATWG",
+                "mime",
+                "mimesniff"
+            ],
+            "support": {
+                "issues": "https://github.com/mensbeam/mime/issues",
+                "source": "https://github.com/mensbeam/mime/tree/0.3.0"
+            },
+            "time": "2025-03-07T15:14:03+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/1.1"
+            },
+            "time": "2023-04-04T09:50:52+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-idn",
+            "version": "v1.37.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-intl-idn.git",
+                "reference": "9614ac4d8061dc257ecc64cba1b140873dce8ad3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/9614ac4d8061dc257ecc64cba1b140873dce8ad3",
+                "reference": "9614ac4d8061dc257ecc64cba1b140873dce8ad3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "symfony/polyfill-intl-normalizer": "^1.10"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laurent Bassin",
+                    "email": "laurent@bassin.info"
+                },
+                {
+                    "name": "Trevor Rowbotham",
+                    "email": "trevor.rowbotham@pm.me"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's idn_to_ascii and idn_to_utf8 functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "idn",
+                "intl",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.37.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-10T14:38:51+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-normalizer",
+            "version": "v1.37.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
+                "reference": "3833d7255cc303546435cb650316bff708a1c75c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/3833d7255cc303546435cb650316bff708a1c75c",
+                "reference": "3833d7255cc303546435cb650316bff708a1c75c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Normalizer\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's Normalizer class and related functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "intl",
+                "normalizer",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.37.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-09T11:45:10+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}
