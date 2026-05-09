@@ -1,0 +1,9 @@
+name: mftester
+services:
+  php-mensbeam:
+    build: .
+    volumes:
+      - .:/app/libs/php-mensbeam
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results

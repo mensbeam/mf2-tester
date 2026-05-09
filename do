@@ -24,7 +24,7 @@ function check_deps {
     else
         declare tools="$basetools"
     fi
-    declare -a missing=()
+    local -a missing=()
     for tool in $tools; do
         if [ ! `command -v $tool` ]; then
             missing+=($tool)
@@ -35,7 +35,7 @@ function check_deps {
 
 function check_base_deps {
     # Check basic dependencies
-    missing=`check_deps`
+    local missing=`check_deps`
     if [ "$missing" ]; then
         for tool in $missing; do
             echo "Required tool '$tool' is not installed."
@@ -56,16 +56,24 @@ function get_tests {
     git submodule update --init --recursive -q
 }
 
+function docker_run {
+    local LIB=$1
+    shift
+    docker compose --project-directory "$libs_dir/$LIB" run -q --quiet-build --quiet-pull --rm --user "$(id -u):$(id -g)" "$LIB" $@
+}
+
 function setup {
+    if [ "$#" -gt 0 ]; then
+        local LIBS=$@
+    fi
     for LIB in $LIBS; do
-        missing=`check_deps "$LIB"`
+        local missing=`check_deps "$LIB"`
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Setting up $LIB library"
             ./actions setup
         elif [ "$HAVE_DOCKER" ]; then
-            echo "Setting up Docker container for $LIB library"
-            docker -l error compose build ${LIB}
+            docker_run "$LIB" ./do docker-setup "$LIB"
         else
             echo "Skipping set-up of $LIB library (requires: $missing)"
         fi
@@ -74,15 +82,17 @@ function setup {
 }
 
 function update {
+    if [ "$#" -gt 0 ]; then
+        local LIBS=$@
+    fi
     for LIB in $LIBS; do
-        missing=`check_deps "$LIB"`
+        local missing=`check_deps "$LIB"`
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Updating $LIB library"
             ./action update
         elif [ "$HAVE_DOCKER" ]; then
-            echo "Updating Docker container for $LIB library"
-            # TODO
+            docker_run "$LIB" ./do docker-update $LIB
         else
             echo "Skipping update of $LIB library (requires: $missing)"
         fi
@@ -138,8 +148,7 @@ function build {
     # queue up Docker containers; these will run in the background
     local -a pids
     for LIB in ${docker_runs[@]}; do
-        echo "Testing $LIB"
-        docker compose run --rm --user "$(id -u):$(id -g)" "$LIB" &
+        docker_run "$LIB" ./do docker-execute "$LIB" &
         pids+=($!)
     done
     # Perform native executions
@@ -343,10 +352,10 @@ if [ "$1" = "docker-execute" ]; then
     execute "$2"
 elif [ "$1" = "docker-setup" ]; then
     # this is used internally by Docker and should not be used directly
-    setup
+    setup "$2"
 elif [ "$1" = "docker-update" ]; then
     # this is used internally by Docker and should not be used directly
-    update
+    update "$2"
 elif [ "$1" = "build" ] || [ "$1" = "build-native" ] || [ "$1" = "build-docker" ]; then
     if [ "$1" = "build-docker" ]; then
         FORCE_DOCKER=1
