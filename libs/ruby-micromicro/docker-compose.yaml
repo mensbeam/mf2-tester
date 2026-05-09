@@ -1,0 +1,9 @@
+name: mftester
+services:
+  ruby-micromicro:
+    build: .
+    volumes:
+      - .:/app/libs/ruby-micromicro
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results
