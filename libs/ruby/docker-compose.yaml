@@ -1,0 +1,9 @@
+name: mftester
+services:
+  ruby:
+    build: .
+    volumes:
+      - .:/app/libs/ruby
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results

@@ -1,12 +1,9 @@
 *.swp
-/languages/elixir/test-one
-/languages/go/test-one
-/results
+.DS_Store
 
-/deps/vendor
-/deps/node_modules
+/languages/elixir/test-one
+/results
 /deps/target
-/deps/.bundle
 /deps/local
 /deps/deps
 /deps/_build
