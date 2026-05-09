@@ -1,0 +1,9 @@
+name: mftester
+services:
+  python:
+    build: .
+    volumes:
+      - .:/app/libs/python
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results
