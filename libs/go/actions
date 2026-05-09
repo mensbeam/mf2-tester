@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "test" ]; then
+    ./test-one "$2"
+elif [ "$1" = "version" ]; then
+    GOCACHE=`pwd`/cache GOMODCACHE=`pwd`/cache go list -mod=mod -m willnorris.com/go/microformats | cut -d ' ' -f 2 | sed 's/^v//'
+elif [ "$1" = "compile" ]; then
+    rm test-one 2>/dev/null ; GOCACHE=`pwd`/cache GOMODCACHE=`pwd`/cache go build -mod=mod -o "test-one" "test-one.go"
+elif [ "$1" = "setup" ]; then
+    GOCACHE=`pwd`/cache GOMODCACHE=`pwd`/cache go get ./... >/dev/null
+elif [ "$1" = "update" ]; then
+    GOCACHE=`pwd`/cache GOMODCACHE=`pwd`/cache go get -u ./... >/dev/null
+fi
