@@ -66,7 +66,7 @@ function setup {
     if [ "$#" -gt 0 ]; then
         local LIBS=$@
     fi
-    for LIB in $LIBS; do
+    for LIB in ${LIBS[@]}; do
         local missing=`check_deps "$LIB"`
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
@@ -85,12 +85,12 @@ function update {
     if [ "$#" -gt 0 ]; then
         local LIBS=$@
     fi
-    for LIB in $LIBS; do
+    for LIB in ${LIBS[@]}; do
         local missing=`check_deps "$LIB"`
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Updating $LIB library"
-            ./action update
+            ./actions update
         elif [ "$HAVE_DOCKER" ]; then
             docker_run "$LIB" ./do docker-update $LIB
         else

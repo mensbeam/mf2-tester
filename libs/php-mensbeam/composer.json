@@ -1,9 +1,4 @@
 {
-  "name": "mensbeam/mf2-tests",
-  "version": "0.0.1",
-  "type": "library",
-  "keywords": ["microformats"],
-  "license": "Apache-2.0",
   "require": {
     "mensbeam/microformats": "*"
   }
