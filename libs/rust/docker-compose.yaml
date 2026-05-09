@@ -1,0 +1,9 @@
+name: mftester
+services:
+  rust:
+    build: .
+    volumes:
+      - .:/app/libs/rust
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results
