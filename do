@@ -137,7 +137,7 @@ function build {
         elif [ "$FORCE_DOCKER" ]; then
             docker_runs+=("$LIB")
         else
-            missing=`check_deps $LIB`
+            local missing=`check_deps $LIB`
             if [ ! "$missing" ]; then
                 native_runs+=("$LIB")
             elif [ "$HAVE_DOCKER" ]; then
@@ -166,9 +166,9 @@ function build {
 function execute {
     local LIB="$1"
     echo "Testing $LIB"
-    rm -rf "$dest_dir"
     local dest_dir="$report_dir/libs/$LIB"
     local HAVE_PARALLEL=`command -v parallel`
+    rm -rf "$dest_dir"
     mkdir -p "$dest_dir"
     pushd "$libs_dir/$LIB" >/dev/null
     ./actions version >"$dest_dir/version"
