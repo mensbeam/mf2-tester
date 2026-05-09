@@ -356,6 +356,8 @@ elif [ "$1" = "docker-setup" ]; then
 elif [ "$1" = "docker-update" ]; then
     # this is used internally by Docker and should not be used directly
     update "$2"
+elif [ "$1" = "docker-debug" ]; then
+    docker_run "$2"
 elif [ "$1" = "build" ] || [ "$1" = "build-native" ] || [ "$1" = "build-docker" ]; then
     if [ "$1" = "build-docker" ]; then
         FORCE_DOCKER=1

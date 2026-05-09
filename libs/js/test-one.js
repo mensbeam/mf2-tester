@@ -1,4 +1,4 @@
-const { mf2 } = require('microformats-parser')
+const { mf2 } = require('microformats-parser');
 
 var infile = process.argv[2];
 
