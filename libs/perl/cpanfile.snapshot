@@ -14,20 +14,7 @@ DISTRIBUTIONS
       Sub::Exporter::Progressive 0.001006
       Text::ParseWords 0
       Tie::Hash 0
-      Variable::Magic 0.48
       perl 5.006001
-      strict 0
-      warnings 0
-  B-Hooks-OP-Check-0.22
-    pathname: E/ET/ETHER/B-Hooks-OP-Check-0.22.tar.gz
-    provides:
-      B::Hooks::OP::Check 0.22
-    requirements:
-      DynaLoader 0
-      ExtUtils::Depends 0.302
-      ExtUtils::MakeMaker 0
-      parent 0
-      perl 5.008001
       strict 0
       warnings 0
   Class-Data-Inheritable-0.10
@@ -674,16 +661,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  ExtUtils-Depends-0.8002
-    pathname: E/ET/ETJ/ExtUtils-Depends-0.8002.tar.gz
-    provides:
-      ExtUtils::Depends 0.8002
-    requirements:
-      Data::Dumper 0
-      ExtUtils::MakeMaker 7.44
-      File::Spec 0
-      IO::File 0
-      perl 5.006
   ExtUtils-Helpers-0.028
     pathname: L/LE/LEONT/ExtUtils-Helpers-0.028.tar.gz
     provides:
@@ -890,21 +867,6 @@ DISTRIBUTIONS
     requirements:
       Exporter::Tiny 0.038
       ExtUtils::MakeMaker 0
-      List::MoreUtils::XS 0.430
-  List-MoreUtils-XS-0.430
-    pathname: R/RE/REHSACK/List-MoreUtils-XS-0.430.tar.gz
-    provides:
-      List::MoreUtils::XS 0.430
-    requirements:
-      Carp 0
-      ExtUtils::MakeMaker 0
-      File::Basename 0
-      File::Copy 0
-      File::Path 0
-      File::Spec 0
-      IPC::Cmd 0
-      XSLoader 0.22
-      base 0
   MIME-Base32-1.303
     pathname: R/RE/REHSACK/MIME-Base32-1.303.tar.gz
     provides:
@@ -1064,21 +1026,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Getopt::Long 0
       Module::Implementation 0.06
-      Package::Stash::XS 0.26
       Scalar::Util 0
       Symbol 0
       Text::ParseWords 0
       constant 0
-      perl 5.008001
-      strict 0
-      warnings 0
-  Package-Stash-XS-0.30
-    pathname: E/ET/ETHER/Package-Stash-XS-0.30.tar.gz
-    provides:
-      Package::Stash::XS 0.30
-    requirements:
-      ExtUtils::MakeMaker 0
-      XSLoader 0
       perl 5.008001
       strict 0
       warnings 0
@@ -1432,25 +1383,6 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  Variable-Magic-0.64
-    pathname: V/VP/VPIT/Variable-Magic-0.64.tar.gz
-    provides:
-      Variable::Magic 0.64
-    requirements:
-      Carp 0
-      Config 0
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      IO::Handle 0
-      IO::Select 0
-      IPC::Open3 0
-      POSIX 0
-      Socket 0
-      Test::More 0
-      XSLoader 0
-      base 0
-      lib 0
-      perl 5.008
   Web-Microformats2-0.511
     pathname: J/JM/JMAC/Web-Microformats2-0.511.tar.gz
     provides:
@@ -1496,53 +1428,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008
-  bareword-filehandles-0.007
-    pathname: I/IL/ILMARI/bareword-filehandles-0.007.tar.gz
-    provides:
-      bareword::filehandles 0.007
-    requirements:
-      B::Hooks::OP::Check 0
-      ExtUtils::Depends 0
-      ExtUtils::MakeMaker 0
-      Test::More 0.88
-      XSLoader 0
-      if 0
-      perl 5.008001
-      strict 0
-      warnings 0
-  indirect-0.39
-    pathname: V/VP/VPIT/indirect-0.39.tar.gz
-    provides:
-      indirect 0.39
-    requirements:
-      Carp 0
-      Config 0
-      ExtUtils::MakeMaker 0
-      File::Spec 0
-      IO::Handle 0
-      IO::Select 0
-      IPC::Open3 0
-      POSIX 0
-      Socket 0
-      Test::More 0
-      XSLoader 0
-      lib 0
-      perl 5.008001
-  multidimensional-0.014
-    pathname: I/IL/ILMARI/multidimensional-0.014.tar.gz
-    provides:
-      multidimensional 0.014
-    requirements:
-      B::Hooks::OP::Check 0.19
-      CPAN::Meta 2.112580
-      ExtUtils::Depends 0
-      ExtUtils::MakeMaker 0
-      Test::More 0.88
-      XSLoader 0
-      if 0
-      perl 5.008001
-      strict 0
-      warnings 0
   namespace-autoclean-0.31
     pathname: E/ET/ETHER/namespace-autoclean-0.31.tar.gz
     provides:
@@ -1571,7 +1456,4 @@ DISTRIBUTIONS
       strictures 2.000006
       strictures::extra undef
     requirements:
-      bareword::filehandles 0
-      indirect 0
-      multidimensional 0
       perl 5.006
