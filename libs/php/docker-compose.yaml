@@ -1,0 +1,9 @@
+name: mftester
+services:
+  php:
+    build: .
+    volumes:
+      - .:/app/libs/php
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results
