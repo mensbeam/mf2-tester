@@ -59,6 +59,8 @@ function get_tests {
 function docker_run {
     local LIB=$1
     shift
+    # create the report directory if it does not exist; this needs to be created before Docker runs so it is not owned by root
+    mkdir -p "$report_dir"
     docker compose --project-directory "$libs_dir/$LIB" run -q --quiet-build --quiet-pull --rm --user "$(id -u):$(id -g)" "$LIB" $@
 }
 

@@ -1,0 +1,13 @@
+name: mftester
+services:
+  js-shiv:
+    build: .
+    volumes:
+      - .:/app/libs/js-shiv
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results
+      - type: tmpfs
+        target: /.npm
+        tmpfs:
+          mode: 0o01777
