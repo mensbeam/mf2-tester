@@ -1,0 +1,8 @@
+{
+  "name": "mensbeam/mf2-tester-php-mensbeam",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "mensbeam/microformats": "*"
+  }
+}

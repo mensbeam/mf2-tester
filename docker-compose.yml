@@ -90,6 +90,13 @@ services:
       - ./results:/app/results
       - ./languages/php-mensbeam:/app/languages/php-mensbeam:ro
 
+  lib-php-mensbeam:
+    build:
+      context: libs/lib-php-mensbeam
+    volumes:
+      - ./results/tests:/var/lib/mf2-tester/tests:ro
+      - ./results/libs/lib-php-mensbeam:/var/lib/mf2-tester/results
+
   python:
     entrypoint: ["/bin/bash", "/app/docker-runner.sh"]
     build:
