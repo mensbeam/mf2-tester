@@ -198,6 +198,7 @@ function execute {
 
 function make_report {
     echo "Building Report"
+    TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1`;
     V1TABLE=`make_table "$results_dir"/microformats-v1/*/*.json "$results_dir"/microformats-mixed/*/*.json`
     V2TABLE=`make_table "$results_dir"/microformats-v2-unit/*/*.json "$results_dir"/microformats-v2/*/*.json`
     echo '
