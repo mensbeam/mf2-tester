@@ -6,6 +6,8 @@ pushd `dirname "$0"` >/dev/null
 TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1`;
 base_dir=`pwd`
 lang_dir="$base_dir/languages"
+libs_dir="$base_dir/libs"
+normalize="$base_dir/normalize.jq"
 
 # bail if no runs succeeded
 if [ ! -e results/libs ]; then
@@ -66,14 +68,14 @@ function make_table {
                     # otherwise delete any empty error files
                     rm -f "$RESULT_ERR"
                 fi
-                local RESULT_MD5=`md5sum "$RESULT_URL" |cut -d ' ' -f 1`
+                local RESULT_MD5=`jq -S -f "$normalize" "$RESULT_URL" 2>/dev/null |md5sum |cut -d ' ' -f 1`
                 if [ "$RESULT_MD5" = "$EXP_MD5" ]; then
                     # the test passed; increment the number of passed tests
                     COUNTS["$lang"]=$((${COUNTS["$lang"]} + 1))
                     TBODY+='<td class="pass"><a href="'$RESULT_URL'">Pass</a>'"$ERR_HTML"'<div class="md5"><wbr></div><div class="diff"><wbr></div>'
                 else
                     # the test failed; produce a diff and link to that in addition to the result; if the test is tentative do not treat it is a failure
-                    diff -y "$EXP_URL" "$RESULT_URL" > "$RESULT_DIFF"
+                    diff -y "$EXP_URL" <(jq -S -f "$normalize" "$RESULT_URL" 2>/dev/null) > "$RESULT_DIFF"
                     if [ ! "$TENTATIVE" ]; then
                         TBODY+='<td class="fail"><a href="'$RESULT_URL'">Fail</a>'"$ERR_HTML"'<div class="md5" title="'$RESULT_MD5'">'$RESULT_MD5'</div><div class="diff"><a href="'$RESULT_DIFF'">Diff</a></div>'
                     else
@@ -91,9 +93,14 @@ function make_table {
     THEAD='<thead>'
     # the first row contains library names and versions
     THEAD+='<tr><th rowspan="2">Test<th><a href="https://github.com/microformats/tests">Test Suite</a><div class="version">'$TEST_SUITE_VERSION'</div>'
-    for lang in ${LANGUAGES[@]}; do 
-        NAME=`cat "$lang_dir/${lang}/label"`
-        LINK=`cat "$lang_dir/${lang}/link"`
+    for lang in ${LANGUAGES[@]}; do
+        if [ -f "$lang_dir/${lang}/label" ]; then
+            label_dir="$lang_dir/${lang}"
+        else
+            label_dir="$libs_dir/${lang}"
+        fi
+        NAME=`cat "$label_dir/label"`
+        LINK=`cat "$label_dir/link"`
         if [ -f "$base_dir/results/libs/${lang}/version" ]; then
             VERSION=`cat "$base_dir/results/libs/${lang}/version"`
         else
