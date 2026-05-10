@@ -70,6 +70,10 @@ function setup {
     fi
     for LIB in ${LIBS[@]}; do
         local missing=`check_deps "$LIB"`
+        if [ `command -v git` ]; then
+            # Git might not be available within Docker, but this is fine because it would have cleaned from the outside already
+            git clean -qdfX "$libs_dir/$LIB"
+        fi
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Setting up $LIB library"
@@ -337,7 +341,6 @@ function make_table {
     done
     echo "$THEAD$TBODY"
 }
-
 
 # Check if the version of Bash is ancient; this is typically the case on macOS
 if [ `echo "$BASH_VERSION" | sed -Ee 's/^([0-9]+).*/\1/'` -lt 4 ]; then
