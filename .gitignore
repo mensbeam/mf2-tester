@@ -1,9 +1,7 @@
 *.swp
 .DS_Store
-
-/languages/elixir/test-one
 /results
-/deps/target
-/deps/local
-/deps/deps
-/deps/_build
+
+# Obsolete stuff
+/deps
+/languages

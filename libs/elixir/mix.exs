@@ -9,7 +9,7 @@ defmodule MicroformatsTester.MixProject do
       start_permanent: Mix.env() == :prod,
       escript: [
         main_module: MicroformatsTester,
-        path: "../languages/elixir/test-one"
+        path: "./test-one"
         ],
       deps: [
         {:microformats2, "~> 1.0.0"},
