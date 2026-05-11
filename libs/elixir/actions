@@ -3,11 +3,11 @@
 if [ "$1" = "test" ]; then
     ./test-one "$2"
 elif [ "$1" = "version" ]; then
-    HOME=`pwd` MIX_XDG=1 mix deps | grep '(microformats2)' | sed 's/^ *//' | cut -d ' ' -f 3
+    MIX_XDG=1 mix deps | grep '(microformats2)' | sed 's/^ *//' | cut -d ' ' -f 3
 elif [ "$1" = "compile" ]; then
-    HOME=`pwd` MIX_XDG=1 MIX_QUIET=1 mix escript.build
+    MIX_XDG=1 MIX_QUIET=1 mix escript.build 2>/dev/null
 elif [ "$1" = "setup" ]; then
-    HOME=`pwd` MIX_QUIET=1 MIX_XDG=1 mix deps.get
+    MIX_QUIET=1 MIX_XDG=1 mix deps.get
 elif [ "$1" = "update" ]; then
-    HOME=`pwd` MIX_QUIET=1 MIX_XDG=1 mix deps.update --all
+    MIX_QUIET=1 MIX_XDG=1 mix deps.update --all
 fi

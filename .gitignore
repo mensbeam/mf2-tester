@@ -1,6 +1,7 @@
 *.swp
 .DS_Store
 /results
+.docker-home
 
 # Obsolete stuff
 /deps

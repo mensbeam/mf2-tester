@@ -1,3 +1,2 @@
-FROM alpine
-RUN apk --no-cache add bash go jq
-WORKDIR /app
+FROM mftester
+RUN apk --no-cache add go

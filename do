@@ -59,8 +59,17 @@ function get_tests {
 function docker_run {
     local LIB=$1
     shift
-    # create the report directory if it does not exist; this needs to be created before Docker runs so it is not owned by root
-    mkdir -p "$report_dir"
+    # create the report directory and a home directory if they do not exist; this needs to be done before Docker runs so they are not owned by root
+    mkdir -p "$report_dir" "$libs_dir/$LIB/.docker-home"
+    # create the image (and possibly the base image) if it does not exist
+    if [ ! `docker images -q "mftester-$LIB"` ]; then
+        echo "Creating Docker image for $LIB"
+        if [ ! `docker images -q "mftester"` ]; then
+            docker build -t mftester "$base_dir" -q >/dev/null
+        fi
+        # we use "docker compose run" because it's the only way to get Docker Compose to be properly quiet
+        docker compose --project-directory "$libs_dir/$LIB" run -q --quiet-build --quiet-pull --rm --user "$(id -u):$(id -g)" "$LIB" true
+    fi
     docker compose --project-directory "$libs_dir/$LIB" run -q --quiet-build --quiet-pull --rm --user "$(id -u):$(id -g)" "$LIB" $@
 }
 
@@ -70,10 +79,6 @@ function setup {
     fi
     for LIB in ${LIBS[@]}; do
         local missing=`check_deps "$LIB"`
-        if [ `command -v git` ]; then
-            # Git might not be available within Docker, but this is fine because it would have cleaned from the outside already
-            git clean -qdfX "$libs_dir/$LIB"
-        fi
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Setting up $LIB library"

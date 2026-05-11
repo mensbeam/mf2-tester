@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    HOME=`pwd` BUNDLE_PATH=`pwd`/.bundle ruby "test-one.rb" "$2"
+    ruby "test-one.rb" "$2"
 elif [ "$1" = "version" ]; then
-    HOME=`pwd` BUNDLE_PATH=`pwd`/.bundle bundle info micromicro --version
+    bundle info micromicro --version
 elif [ "$1" = "compile" ]; then
     true
 elif [ "$1" = "setup" ]; then
-    HOME=`pwd` BUNDLE_PATH=`pwd`/.bundle bundle install --quiet
+    bundle install --quiet
 elif [ "$1" = "update" ]; then
-    HOME=`pwd` BUNDLE_PATH=`pwd`/.bundle bundle update --all --quiet
+    bundle update --all --quiet
 fi
