@@ -1,0 +1,10 @@
+name: mftester
+services:
+  csharp:
+    build: .
+    volumes:
+      - .:/app/libs/csharp
+      - ./.docker-home:/home
+      - ../../do:/app/do:ro
+      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../results:/app/results
