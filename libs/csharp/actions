@@ -5,7 +5,7 @@ if [ "$1" = "test" ]; then
 elif [ "$1" = "version" ]; then
     dotnet package list -v q | grep -F '> Microformats ' | sed 's/ \+/ /g' | cut -d ' ' -f 4
 elif [ "$1" = "compile" ]; then
-    dotnet build -v q -o bin
+    dotnet build -v q -o bin --no-restore
 elif [ "$1" = "setup" ]; then
     dotnet restore -v q
 elif [ "$1" = "update" ]; then

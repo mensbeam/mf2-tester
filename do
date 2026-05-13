@@ -328,9 +328,76 @@ function make_table {
     echo "$THEAD$TBODY"
 }
 
+function compare {
+    local file="$1"
+    local base="$2"
+    local name=`basename "$file"`
+    local dir="$report_dir/compare/$name"
+    local input="$dir/in.html"
+    local -a pids
+
+    # put the input file somewhere the Docker containers will find it
+    mkdir -p `dirname "$input"`
+    cp "$file" "$input"
+    # evaluate the file with each parser
+    for LIB in ${LIBS[@]}; do
+        docker_run "$LIB" ./do docker-test "$LIB" "$name" "$base" &
+        pids+=($!)
+    done
+    # wait for Docker containers to finish
+    for pid in ${pids[@]}; do
+        wait "$pid" || true
+    done
+    # prepare an HTML file with all the outputs collected together
+    make_comparator "$name"
+    # clean up
+    #rm -rf "$dir"
+}
+
+function test_single {
+    local LIB="$1"
+    local name="$2"
+    local base="$3"
+    local file="$report_dir/compare/$name/in.html"
+    local out="$report_dir/compare/$name/$LIB.json"
+    local err="$report_dir/compare/$name/$LIB.err"
+    local ver="$report_dir/compare/$name/$LIB.ver"
+    pushd "$libs_dir/$LIB" >/dev/null
+    ./actions version >"$ver"
+    ./actions compile
+    ./actions test "$file" "$base" 2>"$err" | jq -S -f "$normalize" >"$out"
+    popd >/dev/null
+}
+
+function make_comparator {
+    local name="$1"
+    local file="$report_dir/compare/$name.html"
+    local results=""
+    local meta=""
+    local out=""
+    for LIB in ${LIBS[@]}; do
+        local dat="$report_dir/compare/$name/$LIB.json"
+        local err="$report_dir/compare/$name/$LIB.err"
+        local ver="$report_dir/compare/$name/$LIB.ver"
+        if [ "$meta" ]; then
+            meta+=","
+        fi
+        meta+='"'"$LIB"'":{"url":"'`cat "$libs_dir/$LIB/link"`'","version":"'`cat "$ver"`'"}'
+        if [ -s "$err" -a ! -s "$dat" ]; then
+            results+='<pre id="lib_'"$LIB"'" class="error">'`cat "$err" | sed -e 's/&/&amp;/g' -e 's/</&lt;/g'`'</pre>'
+        else
+            results+='<pre id="lib_'"$LIB"'" class="output">'`cat "$dat" | sed -e 's/&/&amp;/g' -e 's/</&lt;/g'`'</pre>'
+        fi
+    done
+    out+='<div hidden id="library_versions">{'"$meta"'}</div>'
+    out+=`echo '<div hidden id="library_outputs">'"$results"'</div>' | sed -E -e 's/(<pre)/\n  \1/g'`
+    echo "$out" | sed -E -e 's/(<div)/\n\1/g' > "$file"
+}
+
 function usage {
     echo "Usage:"
     echo "  ./do <library_command> [<library>...]"
+    echo "  ./do compare <file> <base_url>"
     echo ""
     echo "Library commands:"
     echo "  setup | setup-native | setup-docker"
@@ -346,6 +413,8 @@ case "$1" in
         setup "$2";;
     docker-update)
         update "$2";;
+    docker-test)
+        test_single "$2" "$3" "$4";;
     docker-debug)
         docker_run "$2";;
     build | build-native | build-docker)
@@ -382,6 +451,12 @@ case "$1" in
         get_tests
         shift
         setup $@;;
+    compare)
+        if [ ! "$2" ] || [ ! "$3" ]; then
+            usage
+            exit 1
+        fi
+        compare "$2" "$3";;
     report)
         check_base_deps
         make_report;;
