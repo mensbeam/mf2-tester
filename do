@@ -11,7 +11,7 @@ test_dir="$report_dir/tests"
 results_dir="$report_dir/test-results"
 src_dir="$base_dir/mf2-tests/tests"
 libs_dir="$base_dir/libs"
-normalize="$base_dir/normalize.jq"
+normalize="$base_dir/resources/normalize.jq"
 
 # enumerate the libraries
 pushd "$libs_dir" >/dev/null
@@ -34,6 +34,16 @@ function check_deps {
 }
 
 function check_base_deps {
+    # Check if the version of Bash is ancient; this is typically the case on macOS
+    if [ `echo "$BASH_VERSION" | sed -Ee 's/^([0-9]+).*/\1/'` -lt 4 ]; then
+        echo 'Bash 4.0 or later is required for these scripts to work correctly. Please'
+        echo 'update your version of Bash. If you are using macOS this can be done with'
+        echo 'Homebrew by issuing the following command:'
+        echo ''
+        echo '    brew install bash'
+        echo ''
+        exit 2
+    fi
     # Check basic dependencies
     local missing=`check_deps`
     if [ "$missing" ]; then
@@ -213,49 +223,10 @@ function execute {
 function make_report {
     echo "Building Report"
     TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1`;
-    V1TABLE=`make_table "$results_dir"/microformats-v1/*/*.json "$results_dir"/microformats-mixed/*/*.json`
-    V2TABLE=`make_table "$results_dir"/microformats-v2/*/*.json`
-    UNITTABLE=`make_table "$results_dir"/microformats-v2-unit/*/*.json`
-    echo '
-<!DOCTYPE html>
-<html>
-<head>
-<title>Microformats testing report</title>
-<style>
-.pass {
-    background-color: lightgreen;
-}
-.fail {
-    background-color: lightgrey;
-}
-.error {
-    background-color: lightpink;
-}
-table, th, td {
-    border: 1px solid black;
-    text-align: center;
-}
-th, td {
-    padding: 0 1ex;
-}
-thead {
-    white-space: nowrap;
-}
-.md5, .diff{
-    font-size: x-small;
-}
-.md5 {
-    font-family: monospace;
-    width: 13ex;
-    margin: auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-</style>
-<body>
-<h1>Microformats parser test matrix</h1>
-<p><a href="https://github.com/mensbeam/mf2-tester">Source</a>
-<h2>Parsing tests</h2>
+    local V1TABLE=`make_table "$results_dir"/microformats-v1/*/*.json "$results_dir"/microformats-mixed/*/*.json`
+    local V2TABLE=`make_table "$results_dir"/microformats-v2/*/*.json`
+    local UNITTABLE=`make_table "$results_dir"/microformats-v2-unit/*/*.json`
+    local MEAT=`echo '<h2>Parsing tests</h2>
 <table>'$UNITTABLE'
 </table>
 <h2>Feature tests</h2>
@@ -263,7 +234,8 @@ thead {
 </table>
 <h2>Backwards-compatibility tests</h2>
 <table>'$V1TABLE'
-</table>' | sed -E -e 's/(<t(head|body))/\n  \1/g' -e 's/(<tr)/\n    \1/g' -e 's/(<t[dh][ >])/\n      \1/g' > results/index.html
+</table>' | sed -E -e 's/(<t(head|body))/\n  \1/g' -e 's/(<tr)/\n    \1/g' -e 's/(<t[dh][ >])/\n      \1/g'`
+    echo `cat "$base_dir/resources/report-template.html"`"$MEAT" > results/index.html
 }
 
 function make_table {
@@ -356,67 +328,63 @@ function make_table {
     echo "$THEAD$TBODY"
 }
 
-# Check if the version of Bash is ancient; this is typically the case on macOS
-if [ `echo "$BASH_VERSION" | sed -Ee 's/^([0-9]+).*/\1/'` -lt 4 ]; then
-    echo 'Bash 4.0 or later is required for these scripts to work correctly. Please'
-    echo 'update your version of Bash. If you are using macOS this can be done with'
-    echo 'Homebrew by issuing the following command:'
-    echo ''
-    echo '    brew install bash'
-    echo ''
-    exit 2
-fi
-
-if [ "$1" = "docker-execute" ]; then
-    # this is used internally by Docker and should not be used directly
-    execute "$2"
-elif [ "$1" = "docker-setup" ]; then
-    # this is used internally by Docker and should not be used directly
-    setup "$2"
-elif [ "$1" = "docker-update" ]; then
-    # this is used internally by Docker and should not be used directly
-    update "$2"
-elif [ "$1" = "docker-debug" ]; then
-    docker_run "$2"
-elif [ "$1" = "build" ] || [ "$1" = "build-native" ] || [ "$1" = "build-docker" ]; then
-    if [ "$1" = "build-docker" ]; then
-        FORCE_DOCKER=1
-    fi
-    check_base_deps
-    populate_expectations
-    if [ "$1" = "build-native" ]; then
-        HAVE_DOCKER=""
-    fi
-    shift
-    build $@
-    make_report
-elif [ "$1" = "update" ]; then
-    if [ "$2" = "docker" ]; then
-        FORCE_DOCKER=1
-    fi
-    check_base_deps
-    get_tests
-    if [ "$2" = "native" ]; then
-        HAVE_DOCKER=""
-    fi
-    update
-elif [ "$1" = "setup" ]; then
-    if [ "$2" = "docker" ]; then
-        FORCE_DOCKER=1
-    fi
-    check_base_deps
-    get_tests
-    if [ "$2" = "native" ]; then
-        HAVE_DOCKER=""
-    fi
-    setup
-elif [ "$1" = "report" ]; then
-    make_report
-else
+function usage {
     echo "Usage:"
-    echo "./do setup [docker|native]"
-    echo "./do update [docker|native]"
-    echo "./do build [<library>...]"
-    echo "./do build-docker [<library>...]"
-    echo "./do build-native [<library>...]"
-fi
+    echo "  ./do <library_command> [<library>...]"
+    echo ""
+    echo "Library commands:"
+    echo "  setup | setup-native | setup-docker"
+    echo "  update | update-native | update-docker"
+    echo "  build | build-native | build-docker"
+    echo ""
+}
+
+case "$1" in
+    docker-execute)
+        execute "$2";;
+    docker-setup)
+        setup "$2";;
+    docker-update)
+        update "$2";;
+    docker-debug)
+        docker_run "$2";;
+    build | build-native | build-docker)
+        if [ "$1" = "build-docker" ]; then
+            FORCE_DOCKER=1
+        fi
+        check_base_deps
+        populate_expectations
+        if [ "$1" = "build-native" ]; then
+            HAVE_DOCKER=""
+        fi
+        shift
+        build $@
+        make_report;;
+    update | update-native | update-docker)
+        if [ "$1" = "update-docker" ]; then
+            FORCE_DOCKER=1
+        fi
+        check_base_deps
+        if [ "$1" = "update-native" ]; then
+            HAVE_DOCKER=""
+        fi
+        get_tests
+        shift
+        update $@;;
+    setup | setup-native | setup-docker)
+        if [ "$1" = "setup-docker" ]; then
+            FORCE_DOCKER=1
+        fi
+        check_base_deps
+        if [ "$1" = "setup-native" ]; then
+            HAVE_DOCKER=""
+        fi
+        get_tests
+        shift
+        setup $@;;
+    report)
+        check_base_deps
+        make_report;;
+    *)
+        usage;;
+esac

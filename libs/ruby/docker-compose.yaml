@@ -6,5 +6,5 @@ services:
       - .:/app/libs/ruby
       - ./.docker-home:/home
       - ../../do:/app/do:ro
-      - ../../normalize.jq:/app/normalize.jq:ro
+      - ../../resources:/app/resources:ro
       - ../../results:/app/results
