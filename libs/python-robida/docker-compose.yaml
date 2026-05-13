@@ -1,0 +1,10 @@
+name: mftester
+services:
+  python-robida:
+    build: .
+    volumes:
+      - .:/app/libs/python-robida
+      - ./.docker-home:/home
+      - ../../do:/app/do:ro
+      - ../../resources:/app/resources:ro
+      - ../../results:/app/results
