@@ -38,14 +38,14 @@ Help with resolving these problems would be greatly appreciated.
 
 The infrastructure required to add a library consists of a directory under `libs/` which contains the following files:
 
-    - `label`: contains a short human-readable name for the library, used in the table header of the report
-    - `link`: contains the URL for the library, preferrably pointing to its entry in a programming language package registry
-    - `tools`: contains a space-separated list of all the command-line tools required to install, update, and exercise the library
-    - `actions`: an executable script which accepts multiple commands, detailed below
-    - A file with source code for a test program, the requirements for which are detailed below
-    - Any package registry files required to install and update the library
-    - A `.gitignore` file if required
-    - `Dockerfile` and `docker-compose.yaml` files to set up the library in a Docker container
+- `label`: contains a short human-readable name for the library, used in the table header of the report
+- `link`: contains the URL for the library, preferrably pointing to its entry in a programming language package registry
+- `tools`: contains a space-separated list of all the command-line tools required to install, update, and exercise the library
+- `actions`: an executable script which accepts multiple commands, detailed below
+- A file with source code for a test program, the requirements for which are detailed below
+- Any package registry files required to install and update the library
+- A `.gitignore` file if required
+- `Dockerfile` and `docker-compose.yaml` files to set up the library in a Docker container
 
 ### The `actions` script
 
