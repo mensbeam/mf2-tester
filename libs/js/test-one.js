@@ -1,16 +1,11 @@
 const { mf2 } = require('microformats-parser');
 
 var infile = process.argv[2];
+var base = process.argv[3];
 
-if (infile === undefined) {
-  console.log("Usage: " + process.argv[1] + " <inputfile>");
+if (infile === undefined || base === undefined) {
+  console.log("Usage: " + process.argv[1] + " <input_file> <base_url>");
   process.exit(1);
-}
-
-var base = 'http://example.com/';
-if (infile.indexOf("/microformats-v2-unit/") > -1) {
-    // This is a unit test; these use a different base URL
-    base = 'http://example.test';
 }
 
 var fs = require("fs");
@@ -23,4 +18,3 @@ fs.readFile(infile, "utf8", function (err, data) {
     });
     console.log("%j", parsed);
 });
-

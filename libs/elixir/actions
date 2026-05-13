@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    ./test-one "$2"
+    shift; ./test-one $@
 elif [ "$1" = "version" ]; then
     MIX_XDG=1 mix deps | grep '(microformats2)' | sed 's/^ *//' | cut -d ' ' -f 3
 elif [ "$1" = "compile" ]; then

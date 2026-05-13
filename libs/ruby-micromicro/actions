@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    ruby "test-one.rb" "$2"
+    shift; ruby "test-one.rb" $@
 elif [ "$1" = "version" ]; then
     bundle info micromicro --version
 elif [ "$1" = "compile" ]; then

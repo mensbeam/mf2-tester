@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    ./bin/csharp "$2"
+    shift; ./bin/csharp $@
 elif [ "$1" = "version" ]; then
     dotnet package list -v q | grep -F '> Microformats ' | sed 's/ \+/ /g' | cut -d ' ' -f 4
 elif [ "$1" = "compile" ]; then

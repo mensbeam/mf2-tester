@@ -190,8 +190,13 @@ function execute {
         err="$dest_dir${file%".txt"}.err"
         # create the output directory if necessary
         mkdir -p `dirname "$dest"`
+        # determine the base URL
+        local base="http://example.com/"
+        if [[ "$file" == *"/microformats-v2-unit/"* ]]; then
+            base="http://example.test"
+        fi
         # either buffer the test if Parallel is available, or run it now otherwise
-        local command="./actions test '$f' 2>'$err' | jq -S -f '$normalize' >'$dest'"
+        local command="./actions test '$f' '$base' 2>'$err' | jq -S -f '$normalize' >'$dest'"
         if [ "$HAVE_PARALLEL" ]; then
             commands+="$command"$'\n'
         else

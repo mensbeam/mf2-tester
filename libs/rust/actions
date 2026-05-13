@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    RUST_BACKTRACE=1 cargo run --locked -q test-one "$2"
+    shift; RUST_BACKTRACE=1 cargo run --locked -q test-one $@
 elif [ "$1" = "version" ]; then
     cargo info -q microformats | grep '^version:' | awk '{print $2}'
 elif [ "$1" = "compile" ]; then

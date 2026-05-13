@@ -4,15 +4,12 @@ using Microformats.Grammar;
 
 class Program {
     static int Main(string[] args) {
-        if (args.Length < 1) {
-            Console.WriteLine("Usage: csharp <inputfile>");
+        if (args.Length < 2) {
+            Console.WriteLine("Usage: csharp <input_file> <base_url>");
             return 1;
         }
         var filename = args[0];
-        var baseUrl = "http://example.com/";
-        if (filename.Contains("/microformats-v2-unit/")) {
-            baseUrl = "http://example.test";
-        }
+        var baseUrl = args[1];
 
         var d = File.ReadAllText(filename, Encoding.UTF8);
         var p = new Microformats.Mf2().WithOptions(o => {

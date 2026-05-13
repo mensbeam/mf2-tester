@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    carton exec `pwd`/test-one.pl "$2"
+    shift; carton exec `pwd`/test-one.pl $@
 elif [ "$1" = "version" ]; then
     carton show 'Web::Microformats2' | cut -d '-' -f 3
 elif [ "$1" = "compile" ]; then

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    php -d display_errors=stderr "test-one.php" "$2"
+    shift; php -d display_errors=stderr "test-one.php" $@
 elif [ "$1" = "version" ]; then
     composer show | grep 'mensbeam/microformats' | sed 's/\ \+/ /g' | cut -d ' ' -f 2
 elif [ "$1" = "compile" ]; then

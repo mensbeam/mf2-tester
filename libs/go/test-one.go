@@ -3,20 +3,14 @@ package main
 
 import (
 	"encoding/json"
-	"strings"
 	"fmt"
 	"net/url"
 	"os"
-
 	"willnorris.com/go/microformats"
 )
 
 func main() {
-	baseStr := "http://example.com/"
-	if strings.Contains(os.Args[1], "/microformats-v2-unit/") {
-		// This is a unit test; these use a different base URL
-		baseStr = "http://example.test"
-	}
+	baseStr := os.Args[2]
 	baseURL, _ := url.Parse(baseStr)
 
 	f, err := os.Open(os.Args[1])

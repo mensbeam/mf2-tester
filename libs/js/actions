@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    NODE_PATH=`pwd`"/node_modules" node "test-one.js" "$2"
+    shift; NODE_PATH=`pwd`"/node_modules" node "test-one.js" $@
 elif [ "$1" = "version" ]; then
     npm ls -json | jq -r '.dependencies["microformats-parser"].version | .'
 elif [ "$1" = "compile" ]; then

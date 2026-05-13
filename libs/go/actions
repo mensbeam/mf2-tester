@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    ./test-one "$2"
+    shift; ./test-one $@
 elif [ "$1" = "version" ]; then
     go list -mod=mod -m willnorris.com/go/microformats | cut -d ' ' -f 2 | sed 's/^v//'
 elif [ "$1" = "compile" ]; then

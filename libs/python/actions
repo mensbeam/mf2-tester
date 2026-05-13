@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "test" ]; then
-    uv run --locked --no-sync --no-cache "test-one.py" "$2"
+    shift; uv run --locked --no-sync --no-cache "test-one.py" $@
 elif [ "$1" = "version" ]; then
     uv export -q --no-cache | grep ^mf2py== | cut -d ' ' -f 1 | cut -d '=' -f 3
 elif [ "$1" = "compile" ]; then
