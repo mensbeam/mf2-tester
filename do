@@ -93,6 +93,7 @@ function setup {
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Setting up $LIB library"
             ./actions setup
+            ./actions compile
         elif [ "$HAVE_DOCKER" ]; then
             docker_run "$LIB" ./do docker-setup "$LIB"
         else
@@ -112,6 +113,7 @@ function update {
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Updating $LIB library"
             ./actions update
+            ./actions compile
         elif [ "$HAVE_DOCKER" ]; then
             docker_run "$LIB" ./do docker-update $LIB
         else
@@ -191,7 +193,6 @@ function execute {
     mkdir -p "$dest_dir"
     pushd "$libs_dir/$LIB" >/dev/null
     ./actions version >"$dest_dir/version"
-    ./actions compile
     local commands=""
     for f in "$test_dir/"microformats-*/*/*.txt ; do
         # compute the output file names
@@ -364,14 +365,15 @@ function test_single {
     local ver="$report_dir/compare/$name/$LIB.ver"
     pushd "$libs_dir/$LIB" >/dev/null
     ./actions version >"$ver"
-    ./actions compile
     ./actions test "$file" "$base" 2>"$err" | jq -S -f "$normalize" >"$out"
     popd >/dev/null
 }
 
 function make_comparator {
     local name="$1"
+    local input="$report_dir/compare/$name/in.html"
     local file="$report_dir/compare/$name.html"
+    local template="$base_dir/resources/compare-template.html"
     local results=""
     local meta=""
     local out=""
@@ -384,14 +386,15 @@ function make_comparator {
         fi
         meta+='"'"$LIB"'":{"url":"'`cat "$libs_dir/$LIB/link"`'","version":"'`cat "$ver"`'"}'
         if [ -s "$err" -a ! -s "$dat" ]; then
-            results+='<pre id="lib_'"$LIB"'" class="error">'`cat "$err" | sed -e 's/&/&amp;/g' -e 's/</&lt;/g'`'</pre>'
+            results+='<pre id="lib_'"$LIB"'" class="error">'`cat "$err" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`'</pre>'
         else
-            results+='<pre id="lib_'"$LIB"'" class="output">'`cat "$dat" | sed -e 's/&/&amp;/g' -e 's/</&lt;/g'`'</pre>'
+            results+='<pre id="lib_'"$LIB"'" class="output">'`cat "$dat" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`'</pre>'
         fi
     done
-    out+='<div hidden id="library_versions">{'"$meta"'}</div>'
-    out+=`echo '<div hidden id="library_outputs">'"$results"'</div>' | sed -E -e 's/(<pre)/\n  \1/g'`
-    echo "$out" | sed -E -e 's/(<div)/\n\1/g' > "$file"
+    out+='<div hidden id="library_input">'`cat "$input" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`$'</div>\n'
+    out+='<div hidden id="library_data">{'"$meta"'}</div>'$'\n'
+    out+=`echo '<div hidden id="library_outputs">'"$results"'</div>' | sed -E -e 's/(<pre)/\n  \1/g'`$'\n'
+    echo "`cat "$template"`""$out" > "$file"
 }
 
 function usage {
