@@ -7,6 +7,12 @@ elif [ "$1" = "version" ]; then
 elif [ "$1" = "compile" ]; then
     dotnet build -v q -o bin --no-restore
 elif [ "$1" = "setup" ]; then
+    ver=`dotnet --version`
+    sentinel="$HOME/.dotnet/$ver.dotnetFirstUseSentinel"
+    if [ ! -f "$sentinel" ]; then
+        mkdir -p `dirname "$sentinel"`
+        touch "$sentinel"
+    fi
     dotnet restore -v q
 elif [ "$1" = "update" ]; then
     dotnet package update -v q
