@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 basetools="sed md5sum jq diff git"
+comptools="sed jq"
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null
@@ -19,10 +20,12 @@ declare -a LIBS=(*)
 popd >/dev/null
 
 function check_deps {
-    if [ "$1" ]; then
-        declare tools=`cat "$libs_dir/$1/tools"`
+    if [ "$1" == "_base" ]; then
+        local tools="$basetools"
+    elif [ "$1" == "_comp" ]; then
+        local tools="$comptools"
     else
-        declare tools="$basetools"
+        local tools=`cat "$libs_dir/$1/tools"`
     fi
     local -a missing=()
     for tool in $tools; do
@@ -45,7 +48,12 @@ function check_base_deps {
         exit 2
     fi
     # Check basic dependencies
-    local missing=`check_deps`
+    if [ "$1" ]; then
+        local set="$1"
+    else
+        local set="_base"
+    fi
+    local missing=`check_deps $set`
     if [ "$missing" ]; then
         for tool in $missing; do
             echo "Required tool '$tool' is not installed."
@@ -335,15 +343,36 @@ function compare {
     local name=`basename "$file"`
     local dir="$report_dir/compare/$name"
     local input="$dir/in.html"
-    local -a pids
-
     # put the input file somewhere the Docker containers will find it
-    mkdir -p `dirname "$input"`
+    mkdir -p "$dir"
     cp "$file" "$input"
-    # evaluate the file with each parser
+    # determine whether we use native tools or Docker to run the tests
+    local -a native_runs
+    local -a docker_runs
+    local -a pids
     for LIB in ${LIBS[@]}; do
+        if [ "$FORCE_DOCKER" ]; then
+            docker_runs+=("$LIB")
+        else
+            local missing=`check_deps $LIB`
+            if [ ! "$missing" ]; then
+                native_runs+=("$LIB")
+            elif [ "$HAVE_DOCKER" ]; then
+                docker_runs+=("$LIB")
+            else
+                echo "Skipping $LIB (needed: $missing)"
+            fi
+        fi
+    done
+    # queue up Docker containers; these will run in the background
+    local -a pids
+    for LIB in ${docker_runs[@]}; do
         docker_run "$LIB" ./do docker-test "$LIB" "$name" "$base" &
         pids+=($!)
+    done
+    # Perform native executions
+    for LIB in ${native_runs[@]}; do
+        test_single "$LIB" "$name" "$base"
     done
     # wait for Docker containers to finish
     for pid in ${pids[@]}; do
@@ -352,7 +381,7 @@ function compare {
     # prepare an HTML file with all the outputs collected together
     make_comparator "$name"
     # clean up
-    #rm -rf "$dir"
+    rm -rf "$dir"
 }
 
 function test_single {
@@ -381,13 +410,15 @@ function make_comparator {
         local dat="$report_dir/compare/$name/$LIB.json"
         local err="$report_dir/compare/$name/$LIB.err"
         local ver="$report_dir/compare/$name/$LIB.ver"
-        if [ "$meta" ]; then
+        if [ ! -s "$ver" ]; then
+            continue
+        elif [ "$meta" ]; then
             meta+=","
         fi
         meta+='"'"$LIB"'":{"url":"'`cat "$libs_dir/$LIB/link"`'","version":"'`cat "$ver"`'"}'
         if [ -s "$err" -a ! -s "$dat" ]; then
             results+='<pre id="lib_'"$LIB"'" class="error">'`cat "$err" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`'</pre>'
-        else
+        elif [ -s "$dat" ]; then 
             results+='<pre id="lib_'"$LIB"'" class="output">'`cat "$dat" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`'</pre>'
         fi
     done
@@ -454,10 +485,17 @@ case "$1" in
         get_tests
         shift
         setup $@;;
-    compare)
+    compare | compare-native | compare-docker)
         if [ ! "$2" ] || [ ! "$3" ]; then
             usage
             exit 1
+        fi
+        if [ "$1" = "compare-docker" ]; then
+            FORCE_DOCKER=1
+        fi
+        check_base_deps _comp
+        if [ "$1" = "compare-native" ]; then
+            HAVE_DOCKER=""
         fi
         compare "$2" "$3";;
     report)
