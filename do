@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-basetools="awk sed md5sum jq diff git"
+basetools="sed md5sum jq diff git"
 
 # make sure we're in the correct directory
 pushd `dirname "$0"` >/dev/null

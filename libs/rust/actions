@@ -3,7 +3,7 @@
 if [ "$1" = "test" ]; then
     shift; RUST_BACKTRACE=1 cargo run --locked -q test-one $@
 elif [ "$1" = "version" ]; then
-    cargo info -q microformats | grep '^version:' | awk '{print $2}'
+    cargo info -q microformats | grep '^version:' | cut -d ' ' -f 2
 elif [ "$1" = "compile" ]; then
     cargo build --locked -q
 elif [ "$1" = "setup" ]; then
