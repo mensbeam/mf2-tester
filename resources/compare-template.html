@@ -481,16 +481,22 @@ function formatDiff(el) {
   var subject = form.diff_what.value;
   var mode = form.diff_how.value;
   var lib = hashes[el.closest("details").getAttribute("data-hash")][0];
-  var source = document.getElementById("lib_"+hashes[subject][0]).textContent;
+  if (subject == "") {
+    var sourceName = "custom";
+    var sourceText = document.getElementsByName("diff_custom")[0].value;
+  } else {
+    var sourceName = hashes[subject][0];
+    var sourceText = document.getElementById("lib_"+sourceName).textContent;
+  }
   let comp = document.getElementById("lib_"+lib).textContent;
   let diff = null;
   if (mode == "word") {
-    diff = Diff.diffWords(source, comp);
+    diff = Diff.diffWords(sourceText, comp);
   } else if (mode == "line") {
-    diff = Diff.diffLines(source, comp);
+    diff = Diff.diffLines(sourceText, comp);
   } else {
     let headerSeen = false;
-    diff = Diff.createTwoFilesPatch(hashes[subject][0], lib, source, comp).split('\n').map(line => {
+    diff = Diff.createTwoFilesPatch(sourceName, lib, sourceText, comp).split('\n').map(line => {
       var out = {
         value: line + "\n",
         added: headerSeen && line.startsWith("+"),
@@ -517,12 +523,15 @@ function formatDiff(el) {
   });
 }
 
-function makeDiffs() {
+async function makeDiffs() {
   var form = document.getElementsByTagName("form")[0];
   var subject = form.diff_what.value;
   if (subject == "") {
-    // TODO: Implement custom diffing
-    return;
+    var custom = document.getElementsByName("diff_custom")[0].value;
+    if (custom == "") {
+      return;
+    }
+    var subject = new Uint8Array(await window.crypto.subtle.digest("SHA-1", new TextEncoder().encode(custom))).toHex();
   }
   // compute the requested differences
   var mode = form.diff_how.value;
@@ -532,7 +541,6 @@ function makeDiffs() {
       // don't diff the subject
       continue;
     }
-    let comp = document.getElementById("lib_"+hashes[h][0]).textContent;
     let pre = document.createElement("pre");
     let d = document.createElement("details");
     let s = document.createElement("summary");
@@ -594,7 +602,7 @@ async function start() {
     p.appendChild(o);
   }
   // define events for the form elements
-  for (let e of document.querySelectorAll('*[name="diff_what"]')) {
+  for (let e of document.querySelectorAll('*[name="diff_what"], *[name="diff_custom"]')) {
     e.addEventListener("change", makeDiffs);
   }
   for (let e of document.querySelectorAll('*[name="diff_how"]')) {
@@ -613,5 +621,6 @@ async function start() {
 <form>
   <div>Difference from: <select name="diff_what" onchange="makeDiff();"><option value="">Custom...</option></select></div>
   <div>Mode: <label><input type="radio" name="diff_how" value="word" checked>Word</label> <label><input type="radio" name="diff_how" value="line">Line</label> <label><input type="radio" name="diff_how" value="patch">Patch</label></div>
+  <div><textarea name="diff_custom" placeholder="Custom difference..." rows="3" cols="25"></textarea></div>
 </form>
 <div id="diffs"></div>
