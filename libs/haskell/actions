@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "test" ]; then
+    cabal run test-one "$2" "$3"
+elif [ "$1" = "version" ]; then
+    cat cabal.project.freeze | grep -F 'any.microformats2-parser ==' | cut -d '=' -f 3 | cut -d ',' -f 1
+elif [ "$1" = "compile" ]; then
+    cabal build -v0
+elif [ "$1" = "setup" ]; then
+    cabal update -v0
+    cabal build --only-download -v0
+elif [ "$1" = "update" ]; then
+    rm cabal.project.freeze
+    cabal update -v0
+    cabal build --only-download -v0
+    cabal freeze -v0
+fi

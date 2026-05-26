@@ -16,6 +16,7 @@ Currently the following libraries are exercised:
 - C#: [Microformats](https://www.nuget.org/packages/Microformats)
 - Elixir: [microformats2](https://hex.pm/packages/microformats2)
 - Go: [microformats](https://pkg.go.dev/willnorris.com/go/microformats)
+- Haskell: [microformats2-parser](https://hackage.haskell.org/package/microformats2-parser)
 - JavaScript: [microformat-node](https://www.npmjs.com/package/microformat-node), [microformats-parser](https://www.npmjs.com/package/microformats-parser)
 - Perl: [Web::Microformats2](https://metacpan.org/pod/Web::Microformats2)
 - PHP: [php-mf2](https://packagist.org/packages/mf2/mf2), [mensbeam/microformats](https://packagist.org/packages/mensbeam/microformats)
@@ -29,7 +30,6 @@ If the required software to exercise a library is not available it will be skipp
 
 A few other libraries are known to be available and were evaluated for inclusion, but were rejected for one reason or another. These are:
 
-- [microformats2-parser for Haskell](https://hackage.haskell.org/package/microformats2-parser); I was unable to get a Haskell test program to compile
 - [microformats for Racket](https://pkgs.racket-lang.org/package/microformats); Racket tooling does not seem to allow pinning dependency versions, and the library is not maintained in any case
 
 Help with resolving these problems would be greatly appreciated.
@@ -86,6 +86,10 @@ The `mix` build tool is included as part of a standard Elixir programming enviro
 ### Go
 
 All that is required for Go is the [Go compiler](https://go.dev/dl/). It is available from most system package managers.
+
+### Haskell
+
+The [Cabal](https://www.haskell.org/cabal/) dependency manager is available from most system package managers.
 
 ### JavaScript
 
