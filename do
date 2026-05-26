@@ -3,8 +3,8 @@ basetools="sed md5sum jq diff git"
 comptools="sed jq"
 
 # make sure we're in the correct directory
-pushd `dirname "$0"` >/dev/null
-base_dir=`pwd`
+pushd "$(dirname "$0")" >/dev/null
+base_dir="$(pwd)"
 
 # define some paths
 report_dir="$base_dir/results"
@@ -25,11 +25,11 @@ function check_deps {
     elif [ "$1" == "_comp" ]; then
         local tools="$comptools"
     else
-        local tools=`cat "$libs_dir/$1/tools"`
+        local tools=$(cat "$libs_dir/$1/tools")
     fi
     local -a missing=()
     for tool in $tools; do
-        if [ ! `command -v $tool` ]; then
+        if [ ! "$(command -v $tool)" ]; then
             missing+=($tool)
         fi
     done
@@ -38,7 +38,7 @@ function check_deps {
 
 function check_base_deps {
     # Check if the version of Bash is ancient; this is typically the case on macOS
-    if [ `echo "$BASH_VERSION" | sed -Ee 's/^([0-9]+).*/\1/'` -lt 4 ]; then
+    if [ "$(echo "$BASH_VERSION" | sed -Ee 's/^([0-9]+).*/\1/')" -lt 4 ]; then
         echo 'Bash 4.0 or later is required for these scripts to work correctly. Please'
         echo 'update your version of Bash. If you are using macOS this can be done with'
         echo 'Homebrew by issuing the following command:'
@@ -53,7 +53,7 @@ function check_base_deps {
     else
         local set="_base"
     fi
-    local missing=`check_deps $set`
+    local missing=$(check_deps $set)
     if [ "$missing" ]; then
         for tool in $missing; do
             echo "Required tool '$tool' is not installed."
@@ -61,7 +61,7 @@ function check_base_deps {
         exit 1
     fi
     # check if Docker is available; this will be used as a fallback if a library's requirements cannot be met by installed software
-    HAVE_DOCKER=`docker compose version 2>/dev/null >/dev/null && echo "docker"`
+    HAVE_DOCKER=$(docker compose version 2>/dev/null >/dev/null && echo "docker")
     if [ "$FORCE_DOCKER" ] && [ ! "$HAVE_DOCKER" ]; then
         echo "Docker Compose is not available on the system."
         exit 3
@@ -80,9 +80,9 @@ function docker_run {
     # create the report directory and a home directory if they do not exist; this needs to be done before Docker runs so they are not owned by root
     mkdir -p "$report_dir" "$libs_dir/$LIB/.docker-home"
     # create the image (and possibly the base image) if it does not exist
-    if [ ! `docker images -q "mftester-$LIB"` ]; then
+    if [ ! "$(docker images -q "mftester-$LIB")" ]; then
         echo "Creating Docker image for $LIB"
-        if [ ! `docker images -q "mftester"` ]; then
+        if [ ! "$(docker images -q "mftester")" ]; then
             docker build -t mftester "$base_dir" -q >/dev/null
         fi
         # we use "docker compose run" because it's the only way to get Docker Compose to be properly quiet
@@ -96,7 +96,7 @@ function setup {
         local LIBS=$@
     fi
     for LIB in ${LIBS[@]}; do
-        local missing=`check_deps "$LIB"`
+        local missing=$(check_deps "$LIB")
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Setting up $LIB library"
@@ -116,7 +116,7 @@ function update {
         local LIBS=$@
     fi
     for LIB in ${LIBS[@]}; do
-        local missing=`check_deps "$LIB"`
+        local missing=$(check_deps "$LIB")
         pushd "$libs_dir/$LIB" >/dev/null
         if [ ! "$missing" ] && [ ! "$FORCE_DOCKER" ]; then
             echo "Updating $LIB library"
@@ -141,8 +141,8 @@ function populate_expectations {
             file=${f#"$src_dir"}
             file=${file%".json"}
             # create destination directories where necessary
-            mkdir -p "$test_dir"`dirname "$file"`
-            mkdir -p "$results_dir"`dirname "$file"`
+            mkdir -p "$test_dir$(dirname "$file")"
+            mkdir -p "$results_dir$(dirname "$file")"
             # copy the input and output files
             cp "$src_dir$file.html" "$test_dir$file.txt"
             cat "$f" | jq -S -f "$normalize" > "$results_dir$file.json"
@@ -166,7 +166,7 @@ function build {
         elif [ "$FORCE_DOCKER" ]; then
             docker_runs+=("$LIB")
         else
-            local missing=`check_deps $LIB`
+            local missing=$(check_deps $LIB)
             if [ ! "$missing" ]; then
                 native_runs+=("$LIB")
             elif [ "$HAVE_DOCKER" ]; then
@@ -196,7 +196,7 @@ function execute {
     local LIB="$1"
     echo "Testing $LIB"
     local dest_dir="$report_dir/libs/$LIB"
-    local HAVE_PARALLEL=`command -v parallel`
+    local HAVE_PARALLEL="$(command -v parallel)"
     rm -rf "$dest_dir"
     mkdir -p "$dest_dir"
     pushd "$libs_dir/$LIB" >/dev/null
@@ -208,7 +208,7 @@ function execute {
         dest="$dest_dir${file%".txt"}.json"
         err="$dest_dir${file%".txt"}.err"
         # create the output directory if necessary
-        mkdir -p `dirname "$dest"`
+        mkdir -p "$(dirname "$dest")"
         # determine the base URL
         local base="http://example.com/"
         if [[ "$file" == *"/microformats-v2-unit/"* ]]; then
@@ -231,11 +231,11 @@ function execute {
 
 function make_report {
     echo "Building Report"
-    TEST_SUITE_VERSION=`git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1`;
-    local V1TABLE=`make_table "$results_dir"/microformats-v1/*/*.json "$results_dir"/microformats-mixed/*/*.json`
-    local V2TABLE=`make_table "$results_dir"/microformats-v2/*/*.json`
-    local UNITTABLE=`make_table "$results_dir"/microformats-v2-unit/*/*.json`
-    local MEAT=`echo '<h2>Parsing tests</h2>
+    TEST_SUITE_VERSION="$(git ls-tree HEAD --abbrev | grep $'\t''mf2-tests$' | cut -d ' ' -f 3 | cut -f 1)";
+    local V1TABLE="$(make_table "$results_dir"/microformats-v1/*/*.json "$results_dir"/microformats-mixed/*/*.json)"
+    local V2TABLE="$(make_table "$results_dir"/microformats-v2/*/*.json)"
+    local UNITTABLE="$(make_table "$results_dir"/microformats-v2-unit/*/*.json)"
+    local MEAT="$(echo '<h2>Parsing tests</h2>
 <table>'$UNITTABLE'
 </table>
 <h2>Feature tests</h2>
@@ -243,8 +243,8 @@ function make_report {
 </table>
 <h2>Backwards-compatibility tests</h2>
 <table>'$V1TABLE'
-</table>' | sed -E -e 's/(<t(head|body))/\n  \1/g' -e 's/(<tr)/\n    \1/g' -e 's/(<t[dh][ >])/\n      \1/g'`
-    echo `cat "$base_dir/resources/report-template.html"`"$MEAT" > results/index.html
+</table>' | sed -E -e 's/(<t(head|body))/\n  \1/g' -e 's/(<tr)/\n    \1/g' -e 's/(<t[dh][ >])/\n      \1/g')"
+    echo "$(cat "$base_dir/resources/report-template.html")$MEAT" > results/index.html
 }
 
 function make_table {
@@ -266,17 +266,17 @@ function make_table {
         local FILE=${f#"$results_dir"}
         FILE=${FILE%".json"}
         # determine whether the test is a tentative one; these are tests which implementations are not expected to pass because correct behavious is undefined
-        local TENTATIVE=`grep -E '/microformats-v2-unit/[^/]+/tentative-' <<< "$FILE"`
+        local TENTATIVE="$(grep -E '/microformats-v2-unit/[^/]+/tentative-' <<< "$FILE")"
         # begin the row
         TOTAL=$((TOTAL + 1))
         TBODY+="<tr>"
         # prepare the cell with the test input
         TEST_URL="tests$FILE.txt"
-        local NAME=`echo "$FILE" | sed -e 's#^/##' -e 's#/#<br>#g'`
+        local NAME="$(echo "$FILE" | sed -e 's#^/##' -e 's#/#<br>#g')"
         TBODY+='<td><a href="'$TEST_URL'">'$NAME'</a>'
         # prepare the cell with the expected output
         local EXP_URL="test-results$FILE.json"
-        local EXP_MD5=`md5sum "$f" |cut -d ' ' -f 1`
+        local EXP_MD5="$(md5sum "$f" |cut -d ' ' -f 1)"
         TBODY+='<td><a href="'$EXP_URL'">Expected</a><div class="md5" title="'$EXP_MD5'">'$EXP_MD5'</div><div class="diff"><wbr></div>'
         # prepare a result cell for each library
         for LIB in ${LIBS[@]}; do
@@ -300,7 +300,7 @@ function make_table {
                     # otherwise delete any empty error files
                     rm -f "$RESULT_ERR"
                 fi
-                local RESULT_MD5=`md5sum "$RESULT_URL" |cut -d ' ' -f 1`
+                local RESULT_MD5="$(md5sum "$RESULT_URL" | cut -d ' ' -f 1)"
                 if [ "$RESULT_MD5" = "$EXP_MD5" ]; then
                     # the test passed; increment the number of passed tests
                     COUNTS["$LIB"]=$((${COUNTS["$LIB"]} + 1))
@@ -324,9 +324,9 @@ function make_table {
     # the first row contains library names and versions
     THEAD+='<tr><th rowspan="2">Test<th><a href="https://github.com/microformats/tests">Test Suite</a><div class="version">'$TEST_SUITE_VERSION'</div>'
     for LIB in ${LIBS[@]}; do 
-        NAME=`cat "$libs_dir/${LIB}/label"`
-        LINK=`cat "$libs_dir/${LIB}/link"`
-        VERSION=`cat "$report_dir/libs/${LIB}/version"`
+        NAME="$(cat "$libs_dir/${LIB}/label")"
+        LINK="$(cat "$libs_dir/${LIB}/link")"
+        VERSION="$(cat "$report_dir/libs/${LIB}/version")"
         THEAD+='<th><a href="'$LINK'">'$NAME'</a><div class="version">'$VERSION'</div>'
     done
     # the second row contains test counts
@@ -340,7 +340,7 @@ function make_table {
 function compare {
     local file="$1"
     local base="$2"
-    local name=`basename "$file"`
+    local name="$(basename "$file")"
     local dir="$report_dir/compare/$name"
     local input="$dir/in.html"
     # put the input file somewhere the Docker containers will find it
@@ -354,7 +354,7 @@ function compare {
         if [ "$FORCE_DOCKER" ]; then
             docker_runs+=("$LIB")
         else
-            local missing=`check_deps $LIB`
+            local missing=$(check_deps $LIB)
             if [ ! "$missing" ]; then
                 native_runs+=("$LIB")
             elif [ "$HAVE_DOCKER" ]; then
@@ -415,17 +415,17 @@ function make_comparator {
         elif [ "$meta" ]; then
             meta+=","
         fi
-        meta+='"'"$LIB"'":{"url":"'`cat "$libs_dir/$LIB/link"`'","version":"'`cat "$ver"`'"}'
+        meta+='"'"$LIB"'":{"url":"'"$(cat "$libs_dir/$LIB/link")"'","version":"'"$(cat "$ver")"'"}'
         if [ -s "$err" -a ! -s "$dat" ]; then
-            results+='<pre id="lib_'"$LIB"'" class="error">'`cat "$err" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`'</pre>'
+            results+='<pre id="lib_'"$LIB"'" class="error">'"$(cat "$err" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g')"'</pre>'
         elif [ -s "$dat" ]; then 
-            results+='<pre id="lib_'"$LIB"'" class="output">'`cat "$dat" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`'</pre>'
+            results+='<pre id="lib_'"$LIB"'" class="output">'"$(cat "$dat" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g')"'</pre>'
         fi
     done
-    out+='<div hidden id="library_input">'`cat "$input" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g'`$'</div>\n'
+    out+='<div hidden id="library_input">'"$(cat "$input" | sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g')"$'</div>\n'
     out+='<div hidden id="library_data">{'"$meta"'}</div>'$'\n'
-    out+=`echo '<div hidden id="library_outputs">'"$results"'</div>' | sed -E -e 's/(<pre)/\n  \1/g'`$'\n'
-    echo "`cat "$template"`""$out" > "$file"
+    out+="$(echo '<div hidden id="library_outputs">'"$results"'</div>' | sed -E -e 's/(<pre)/\n  \1/g')"$'\n'
+    echo "$(cat "$template")$out" > "$file"
 }
 
 function usage {
