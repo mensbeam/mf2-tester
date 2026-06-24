@@ -10,7 +10,7 @@ elif [ "$1" = "setup" ]; then
     ver="$(dotnet --version)"
     sentinel="$HOME/.dotnet/$ver.dotnetFirstUseSentinel"
     if [ ! -f "$sentinel" ]; then
-        mkdir -p "$(dirname "$sentinel"
+        mkdir -p "$(dirname "$sentinel")"
         touch "$sentinel"
     fi
     dotnet restore -v q
