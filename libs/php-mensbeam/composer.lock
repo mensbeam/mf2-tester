@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "mensbeam/html-parser",
-            "version": "1.4.3",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/HTML-Parser.git",
-                "reference": "8de1a97cbc28729434bcc75f772fb5f8e6eaa945"
+                "reference": "f7868770672bd4d660cfb68d6d469da1f297fc0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/HTML-Parser/zipball/8de1a97cbc28729434bcc75f772fb5f8e6eaa945",
-                "reference": "8de1a97cbc28729434bcc75f772fb5f8e6eaa945",
+                "url": "https://api.github.com/repos/mensbeam/HTML-Parser/zipball/f7868770672bd4d660cfb68d6d469da1f297fc0c",
+                "reference": "f7868770672bd4d660cfb68d6d469da1f297fc0c",
                 "shasum": ""
             },
             "require": {
@@ -27,18 +27,13 @@
                 "php": ">=7.1"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.3"
+                "phake/phake": "^4.7",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
                 "ext-ctype": "Improved performance"
             },
             "type": "library",
-            "extra": {
-                "bamarni-bin": {
-                    "bin-links": false,
-                    "forward-command": true
-                }
-            },
             "autoload": {
                 "files": [
                     "lib/Parser/ctype.php"
@@ -78,9 +73,9 @@
                 "parsing"
             ],
             "support": {
-                "source": "https://github.com/mensbeam/HTML-Parser/tree/1.4.3"
+                "source": "https://github.com/mensbeam/HTML-Parser/tree/1.4.6"
             },
-            "time": "2026-01-19T23:44:48+00:00"
+            "time": "2026-10-13T21:35:15+00:00"
         },
         {
             "name": "mensbeam/intl",
@@ -144,23 +139,23 @@
         },
         {
             "name": "mensbeam/microformats",
-            "version": "0.2.2",
+            "version": "0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/microformats.git",
-                "reference": "bfb3b0099dc39c9cb302c6b80ff560e7e5ed3764"
+                "reference": "7fab1b7490c244b0225ee6c8369657b21db57469"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/bfb3b0099dc39c9cb302c6b80ff560e7e5ed3764",
-                "reference": "bfb3b0099dc39c9cb302c6b80ff560e7e5ed3764",
+                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/7fab1b7490c244b0225ee6c8369657b21db57469",
+                "reference": "7fab1b7490c244b0225ee6c8369657b21db57469",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-json": "*",
                 "mensbeam/html-parser": "^1.3",
-                "mensbeam/mimesniff": "^0.3.0",
+                "mensbeam/mimesniff": ">=0.3",
                 "mensbeam/uri": "^1.0",
                 "php": ">=7.3"
             },
@@ -200,27 +195,27 @@
             ],
             "support": {
                 "issues": "https://github.com/mensbeam/microformats/issues",
-                "source": "https://github.com/mensbeam/microformats/tree/0.2.2"
+                "source": "https://github.com/mensbeam/microformats/tree/0.2.4"
             },
-            "time": "2026-07-07T18:47:13+00:00"
+            "time": "2026-09-25T22:37:37+00:00"
         },
         {
             "name": "mensbeam/mimesniff",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/mime.git",
-                "reference": "13f4eddf1ed7db6438ab4f945021a0c90b2d8052"
+                "reference": "67af89a2d679832f7e2c1e4c1b7db3abcba73b9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/mime/zipball/13f4eddf1ed7db6438ab4f945021a0c90b2d8052",
-                "reference": "13f4eddf1ed7db6438ab4f945021a0c90b2d8052",
+                "url": "https://api.github.com/repos/mensbeam/mime/zipball/67af89a2d679832f7e2c1e4c1b7db3abcba73b9f",
+                "reference": "67af89a2d679832f7e2c1e4c1b7db3abcba73b9f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.3",
@@ -251,9 +246,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mensbeam/mime/issues",
-                "source": "https://github.com/mensbeam/mime/tree/0.3.0"
+                "source": "https://github.com/mensbeam/mime/tree/0.4.0"
             },
-            "time": "2025-03-07T15:14:03+00:00"
+            "time": "2026-09-25T22:25:50+00:00"
         },
         {
             "name": "mensbeam/uri",
@@ -326,16 +321,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +339,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -359,7 +354,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -373,22 +368,22 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:50:52+00:00"
+            "time": "2023-04-04T09:54:51+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.38.1",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "dc21118016c039a66235cf93d96b435ffb282412"
+                "reference": "533d68cf99c8f8ee2e8893c59ed59192e92cfd74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/dc21118016c039a66235cf93d96b435ffb282412",
-                "reference": "dc21118016c039a66235cf93d96b435ffb282412",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/533d68cf99c8f8ee2e8893c59ed59192e92cfd74",
+                "reference": "533d68cf99c8f8ee2e8893c59ed59192e92cfd74",
                 "shasum": ""
             },
             "require": {
@@ -442,7 +437,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -462,20 +457,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T15:22:23+00:00"
+            "time": "2026-09-23T14:40:04+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.38.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b"
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/2d446c214bdbe5b71bde5011b060a05fece3ae6b",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b",
                 "shasum": ""
             },
             "require": {
@@ -527,7 +522,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.38.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.43.0"
             },
             "funding": [
                 {
@@ -547,7 +542,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T13:48:31+00:00"
+            "time": "2026-09-23T22:02:09+00:00"
         }
     ],
     "packages-dev": [],
