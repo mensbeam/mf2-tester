@@ -66,7 +66,8 @@
                 "issues": "https://github.com/microformats/php-mf2/issues",
                 "source": "https://github.com/microformats/php-mf2/tree/v0.5.0"
             },
-            "time": "2022-02-10T01:05:27+00:00"
+            "time": "2022-02-10T01:05:27+00:00",
+            "published-time": "2022-02-10T01:08:30+00:00"
         }
     ],
     "packages-dev": [],
@@ -77,5 +78,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }

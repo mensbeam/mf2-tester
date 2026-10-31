@@ -75,7 +75,64 @@
             "support": {
                 "source": "https://github.com/mensbeam/HTML-Parser/tree/1.4.6"
             },
-            "time": "2026-10-13T21:35:15+00:00"
+            "time": "2026-10-13T21:35:15+00:00",
+            "published-time": "2026-10-13T21:52:58+00:00"
+        },
+        {
+            "name": "mensbeam/html-urlresolver",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://codeberg.org/mensbeam/html-urlresolver.git",
+                "reference": "49fc6bac31f94247c4d664295cdc459bfd368aad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://codeberg.org/api/v1/repos/mensbeam/html-urlresolver/archive/49fc6bac31f94247c4d664295cdc459bfd368aad.zip",
+                "reference": "49fc6bac31f94247c4d664295cdc459bfd368aad",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-uri": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "*",
+                "mensbeam/html-parser": "^1.4"
+            },
+            "suggest": {
+                "mensbeam/uri": "Implementation of ext-uri for PHP 8.4 and earlier"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": true
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MensBeam\\HTML\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "J. King",
+                    "email": "jking@jkingweb.ca"
+                }
+            ],
+            "description": "Resolve URLs in HTML documents",
+            "support": {
+                "issues": "https://codeberg.org/mensbeam/html-urlresolver/issues",
+                "source": "https://codeberg.org/mensbeam/html-urlresolver/tag/1.0.1"
+            },
+            "time": "2026-10-25T14:13:13+00:00",
+            "published-time": "2026-10-25T18:35:43+00:00"
         },
         {
             "name": "mensbeam/intl",
@@ -135,26 +192,28 @@
             "support": {
                 "source": "https://github.com/mensbeam/Intl/tree/0.9.4"
             },
-            "time": "2026-01-19T19:58:03+00:00"
+            "time": "2026-01-19T19:58:03+00:00",
+            "published-time": "2026-01-19T19:58:33+00:00"
         },
         {
             "name": "mensbeam/microformats",
-            "version": "0.2.4",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mensbeam/microformats.git",
-                "reference": "7fab1b7490c244b0225ee6c8369657b21db57469"
+                "reference": "20829bf6893c5d879aca7a08b82bbf5ba7dc5671"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/7fab1b7490c244b0225ee6c8369657b21db57469",
-                "reference": "7fab1b7490c244b0225ee6c8369657b21db57469",
+                "url": "https://api.github.com/repos/mensbeam/microformats/zipball/20829bf6893c5d879aca7a08b82bbf5ba7dc5671",
+                "reference": "20829bf6893c5d879aca7a08b82bbf5ba7dc5671",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-json": "*",
                 "mensbeam/html-parser": "^1.3",
+                "mensbeam/html-urlresolver": "^1.0.1",
                 "mensbeam/mimesniff": ">=0.3",
                 "mensbeam/uri": "^1.0",
                 "php": ">=7.3"
@@ -195,9 +254,10 @@
             ],
             "support": {
                 "issues": "https://github.com/mensbeam/microformats/issues",
-                "source": "https://github.com/mensbeam/microformats/tree/0.2.4"
+                "source": "https://github.com/mensbeam/microformats/tree/1.0.0"
             },
-            "time": "2026-09-25T22:37:37+00:00"
+            "time": "2026-10-25T21:11:42+00:00",
+            "published-time": "2026-10-25T21:12:08+00:00"
         },
         {
             "name": "mensbeam/mimesniff",
@@ -248,7 +308,8 @@
                 "issues": "https://github.com/mensbeam/mime/issues",
                 "source": "https://github.com/mensbeam/mime/tree/0.4.0"
             },
-            "time": "2026-09-25T22:25:50+00:00"
+            "time": "2026-09-25T22:25:50+00:00",
+            "published-time": "2026-09-25T22:26:31+00:00"
         },
         {
             "name": "mensbeam/uri",
@@ -317,7 +378,8 @@
                 "issues": "https://codeberg.org/mensbeam/uri-polyfill/issues",
                 "source": "https://codeberg.org/mensbeam/uri-polyfill/tag/1.0.0"
             },
-            "time": "2026-07-07T12:00:15+00:00"
+            "time": "2026-07-07T12:00:15+00:00",
+            "published-time": "2026-07-07T16:45:28+00:00"
         },
         {
             "name": "psr/http-message",
@@ -370,7 +432,8 @@
             "support": {
                 "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:54:51+00:00"
+            "time": "2023-04-04T09:54:51+00:00",
+            "published-time": "2023-04-04T09:55:35+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -457,7 +520,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-23T14:40:04+00:00"
+            "time": "2026-09-23T14:40:04+00:00",
+            "published-time": "2026-09-30T10:23:39+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -542,7 +606,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-23T22:02:09+00:00"
+            "time": "2026-09-23T22:02:09+00:00",
+            "published-time": "2026-09-30T10:23:47+00:00"
         }
     ],
     "packages-dev": [],
@@ -553,5 +618,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
